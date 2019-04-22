@@ -17,22 +17,38 @@ history = open('CHANGES.rst').read()
 tests_require = [
     'check-manifest>=0.25',
     'coverage>=4.0',
+    'invenio-app>=1.0.4',
+    'invenio-mail>=1.0.0',
+    'invenio-userprofiles>=1.0.0',
     'isort>=4.3.3',
+    'mock>=2.0.0',
     'pydocstyle>=2.0.0',
     'pytest-cov>=2.5.1',
-    'pytest-pep8>=1.0.6',
     'pytest-invenio>=1.1.0',
+    'pytest-pep8>=1.0.6',
+    'redis>=2.10.5',
 ]
 
 extras_require = {
     'docs': [
         'Sphinx>=1.5.1',
     ],
+    'mysql': [
+        'invenio-db[mysql]>=1.0.0',
+    ],
+    'postgresql': [
+        'invenio-db[postgresql]>=1.0.0',
+    ],
+     'sqlite': [
+        'invenio-db>=1.0.0',
+    ],
     'tests': tests_require,
 }
 
 extras_require['all'] = []
-for reqs in extras_require.values():
+for name, reqs in extras_require.items():
+    if name in ('mysql', 'postgresql', 'sqlite'):
+        continue
     extras_require['all'].extend(reqs)
 
 setup_requires = [
@@ -41,7 +57,10 @@ setup_requires = [
 ]
 
 install_requires = [
-    'Flask-BabelEx>=0.9.3',
+    'flask-sso-saml>=0.1.0',
+    'invenio-accounts>=1.1.1',
+    # TODO: Remove once duplicated code gets integrated
+    'uritools>=2.2.0',
 ]
 
 packages = find_packages()
@@ -71,11 +90,8 @@ setup(
         'invenio_base.apps': [
             'invenio_saml = invenio_saml:InvenioSAML',
         ],
-        'invenio_base.blueprints': [
-            'invenio_saml = invenio_saml.views:blueprint',
-        ],
-        'invenio_i18n.translations': [
-            'messages = invenio_saml',
+        'invenio_db.models': [
+            'invenio_saml = invenio_saml.invenio_accounts.models',
         ],
     },
     extras_require=extras_require,

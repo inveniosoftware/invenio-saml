@@ -12,26 +12,38 @@ sudo: false
 
 language: python
 
-matrix:
-  fast_finish: true
-  allow_failures:
-    # To allow failures, you need to specify the full environment
-    - env: REQUIREMENTS=devel
+services:
+  - mysql
+  - postgresql
+  - redis
 
 cache:
   - pip
 
 env:
-  - REQUIREMENTS=lowest
-  - REQUIREMENTS=release DEPLOY=true
-  - REQUIREMENTS=devel
+  - REQUIREMENTS=lowest EXTRAS=all,sqlite SQLALCHEMY_DATABASE_URI="sqlite:///test.db"
+  - REQUIREMENTS=lowest EXTRAS=all,mysql SQLALCHEMY_DATABASE_URI="mysql+pymysql://root@localhost:3306/invenio"
+  - REQUIREMENTS=lowest EXTRAS=all,postgresql SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://postgres@localhost:5432/invenio"
+  - REQUIREMENTS=release EXTRAS=all,sqlite SQLALCHEMY_DATABASE_URI="sqlite:///test.db"
+  - REQUIREMENTS=release EXTRAS=all,mysql SQLALCHEMY_DATABASE_URI="mysql+pymysql://root@localhost:3306/invenio"
+  - REQUIREMENTS=release EXTRAS=all,postgresql SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://postgres@localhost:5432/invenio" DEPLOY=true
+  - REQUIREMENTS=devel EXTRAS=all,sqlite SQLALCHEMY_DATABASE_URI="sqlite:///test.db"
+  - REQUIREMENTS=devel EXTRAS=all,mysql SQLALCHEMY_DATABASE_URI="mysql+pymysql://root@localhost:3306/invenio"
+  - REQUIREMENTS=devel EXTRAS=all,postgresql SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://postgres@localhost:5432/invenio"
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: REQUIREMENTS=devel EXTRAS=all,sqlite SQLALCHEMY_DATABASE_URI="sqlite:///test.db"
+    - env: REQUIREMENTS=devel EXTRAS=all,mysql SQLALCHEMY_DATABASE_URI="mysql+pymysql://root@localhost:3306/invenio"
+    - env: REQUIREMENTS=devel EXTRAS=all,postgresql SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://postgres@localhost:5432/invenio"
 
 python:
   - "2.7"
   - "3.5"
 
 before_install:
-  - "nvm install 6; nvm use 6"
+  - "sudo apt-get install -y libxml2-dev libxmlsec1-dev"
   - "travis_retry pip install --upgrade pip setuptools py"
   - "travis_retry pip install twine wheel coveralls requirements-builder"
   - "requirements-builder -e all --level=min setup.py > .travis-lowest-requirements.txt"
@@ -40,7 +52,7 @@ before_install:
 
 install:
   - "travis_retry pip install -r .travis-${REQUIREMENTS}-requirements.txt"
-  - "travis_retry pip install -e .[all]"
+  - "travis_retry pip install -e .[${EXTRAS}]"
 
 script:
   - "./run-tests.sh"
@@ -53,7 +65,7 @@ deploy:
   user: inveniosoftware
   password:
     secure: TODO:PYPISECUREHASH
-  distributions: "compile_catalog sdist bdist_wheel"
+  distributions: "sdist bdist_wheel"
   on:
     tags: true
     python: "2.7"

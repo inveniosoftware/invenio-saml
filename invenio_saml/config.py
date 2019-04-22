@@ -5,13 +5,9 @@
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-"""Invenio module that provides SAML integration."""
+"""Configuration for Invenio-SAML.
 
-# TODO: This is an example file. Remove it if your package does not use any
-# extra configuration variables.
-
-SAML_DEFAULT_VALUE = 'foobar'
-"""Default value for the application."""
-
-SAML_BASE_TEMPLATE = 'invenio_saml/base.html'
-"""Default base template for the demo page."""
+Invenio-SAML is a tiny integration layer between Invenio and Flask-SSO-SAML, so
+please refer to `Flask-SSO-SAML <https://flask-sso-saml.readthedocs.io/>`_'s
+configuration documentation for the list of available variables and it's usage.
+"""

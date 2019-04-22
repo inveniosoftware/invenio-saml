@@ -5,16 +5,7 @@
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-[aliases]
-test = pytest
+"""Temporary place for, IMHO, Invenio-Accounts code.
 
-[build_sphinx]
-source-dir = docs/
-build-dir = docs/_build
-all_files = 1
-
-[bdist_wheel]
-universal = 1
-
-[pydocstyle]
-add_ignore = D401
+All this code has been adapted and copied from Invenio-Oauthclient.
+"""

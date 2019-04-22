@@ -11,8 +11,8 @@ API Docs
 .. automodule:: invenio_saml.ext
    :members:
 
-Views
------
+Default handlers
+----------------
 
-.. automodule:: invenio_saml.views
+.. automodule:: invenio_saml.handlers
    :members:
