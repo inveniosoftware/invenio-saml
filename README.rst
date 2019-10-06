@@ -8,20 +8,20 @@
  Invenio-SAML
 ==============
 
-.. image:: https://img.shields.io/travis/egabancho/invenio-saml.svg
-        :target: https://travis-ci.org/egabancho/invenio-saml
+.. image:: https://img.shields.io/travis/inveniosoftware/invenio-saml.svg
+        :target: https://travis-ci.org/inveniosoftware/invenio-saml
 
-.. image:: https://img.shields.io/coveralls/egabancho/invenio-saml.svg
-        :target: https://coveralls.io/r/egabancho/invenio-saml
+.. image:: https://img.shields.io/coveralls/inveniosoftware/invenio-saml.svg
+        :target: https://coveralls.io/r/inveniosoftware/invenio-saml
 
-.. image:: https://img.shields.io/github/tag/egabancho/invenio-saml.svg
-        :target: https://github.com/egabancho/invenio-saml/releases
+.. image:: https://img.shields.io/github/tag/inveniosoftware/invenio-saml.svg
+        :target: https://github.com/inveniosoftware/invenio-saml/releases
 
 .. image:: https://img.shields.io/pypi/dm/invenio-saml.svg
         :target: https://pypi.python.org/pypi/invenio-saml
 
-.. image:: https://img.shields.io/github/license/egabancho/invenio-saml.svg
-        :target: https://github.com/egabancho/invenio-saml/blob/master/LICENSE
+.. image:: https://img.shields.io/github/license/inveniosoftware/invenio-saml.svg
+        :target: https://github.com/inveniosoftware/invenio-saml/blob/master/LICENSE
 
 Invenio module that provides SAML integration.
 
