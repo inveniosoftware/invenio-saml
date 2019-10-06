@@ -61,13 +61,13 @@ after_success:
   - coveralls
 
 deploy:
+  distributions: compile_catalog sdist bdist_wheel
+  'on':
+    condition: $DEPLOY = true
+    python: '3.5'
+    repo: inveniosoftware/invenio-saml
+    tags: true
+  password:
+    secure: jqv2KwlBqo7j7d1AEgrGRdc11fqkj1VC6CH6kyChSgEjOvz1UPJW9cfN26qpag9u4s6QMpGMowqDuzLQuSGx6CN2rjWsocflgihO/Ob3R2NlFLzD3NIgjLPhP0NMVCqgrK/s+3CV4RDap2cDA9cvTRLf4URjIKxZY1mAL5R5sXSnurX0ZouWhFm3R+EFoNKDqDp3lFPrM6SpR/f6LKYpbTSr0C7Vm7bTYX6zL9BaQa/K4ai2VqLYd3ZxEek/J6p0PDHw0jufgjctSfurFXObWcwPb+7g55J8GBEV3ugR+nGcFztV1OYyhnjKcgmfGdcSaweH7fFQDPVLeZJY0ZWxTCWhxh6glnzQWW5mylS0ksgIYLbey3cosXHzTnAFoFmBCsThDwJ132x503i71XZWOLJPfr8onZqXWStuAyM2+XMXIBCQUAou0bNzsjN5mbhYLeTLkxipVn4Zy6z/eV3qMXGuX43xmcBveaLPiQp76aHxUKh00DgnxKEjmGSwXeLqkAPcWiT4zVdEHFn5KYYduj4NZ6M00mpQE6Y4oJnYN5vfnanwacBlFKxwDcB/fGRKRsNV3XU4esYPTOA+LYrL3nj3J1EDqMN0KyoQMa/4vD6H4gtfCdai7/s6cS+kN1z0U/AwQeWF2EV6Wf10VVTeVBQk9fBkG/Npz+8HgP1CxCk=
   provider: pypi
   user: inveniosoftware
-  password:
-    secure: TODO:PYPISECUREHASH
-  distributions: "sdist bdist_wheel"
-  on:
-    tags: true
-    python: "2.7"
-    repo: egabancho/invenio-saml
-    condition: $DEPLOY = true
