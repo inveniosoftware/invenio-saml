@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2019 Esteban J. Garcia Gabancho.
+# Copyright (C) 2019, 2020 Esteban J. Garcia Gabancho.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -84,7 +84,13 @@ def acs_handler_factory(account_info, account_setup=default_account_setup):
         :return: Next URL
         """
         if not current_user.is_authenticated:
+            current_app.logger.debug(
+                'Metadata received from IdP %s', auth.get_attributes()
+            )
             _account_info = account_info(auth.get_attributes())
+            current_app.logger.debug(
+                'Metadata extracted from IdP %s', _account_info
+            )
             # TODO: signals?
 
             user = account_get_user(_account_info)
