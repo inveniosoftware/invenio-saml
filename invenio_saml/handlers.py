@@ -18,6 +18,33 @@ from .invenio_accounts.utils import account_authenticate, account_get_user, \
 from .invenio_app import get_safe_redirect_target
 
 
+def account_info(attributes, remote_app):
+    """Return account info for remote user.
+    :param attributes: (dict) dictionary of data returned by identity provider.
+    :param remote_app: (str) Identity provider key.
+    :returns: (dict) A dictionary representing user to create or update.
+    """
+
+    """ mappings
+    extracts the mapping or attributes for given remote_app
+    """
+    mappings = current_app.config['SSO_SAML_IDPS'][remote_app]['settings']['mappings']
+
+    name = attributes[mappings['name']][0]
+    email = attributes[mappings['email']][0]
+    user_unique_id = attributes[mappings['user_unique_id']][0]
+
+    return dict(
+        user=dict(
+            email=email,
+            profile=dict(full_name=name, username=name),
+        ),
+        external_id=user_unique_id,
+        external_method=remote_app,
+        active=True
+    )
+
+
 def default_account_setup(user, account_info):
     """Default account setup which only links ``User`` and ``UserIdentity``."""
     try:
@@ -38,7 +65,7 @@ def default_sls_handler(auth, next_url):
     return next_url
 
 
-def acs_handler_factory(account_info, account_setup=default_account_setup):
+def acs_handler_factory(remote_app, account_setup=default_account_setup):
     """Generate ACS handlers with an specific account info and setup functions.
 
     .. note::
@@ -75,6 +102,7 @@ def acs_handler_factory(account_info, account_setup=default_account_setup):
 
     :return: function to be used as ACS handler
     """
+
     def default_acs_handler(auth, next_url):
         """Default ACS handler.
 
@@ -87,7 +115,8 @@ def acs_handler_factory(account_info, account_setup=default_account_setup):
             current_app.logger.debug(
                 'Metadata received from IdP %s', auth.get_attributes()
             )
-            _account_info = account_info(auth.get_attributes())
+            # _account_info = account_info(auth.get_attributes())
+            _account_info = account_info(auth.get_attributes(), remote_app)
             current_app.logger.debug(
                 'Metadata extracted from IdP %s', _account_info
             )
