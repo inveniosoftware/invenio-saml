@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2019 Esteban J. Garcia Gabancho.
+# Copyright (C) 2021 Graz University of Technology.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -52,15 +53,13 @@ def test_default_sls_handler(appctx, users):
 def test_acs_handler_factory(appctx, db):
     """Test ACS handler factory."""
     attrs = dict(
-        user=dict(
-            email='federico@example.com',
-            profile=dict(username='federico', full_name='Federico Fernandez'),
-        ),
-        external_id='12345679abcdf',
-        external_method='example',
-        active=True)
+        email=['federico@example.com'],
+        name=['federico'],
+        surname=['Fernandez'],
+        external_id=['12345679abcdf'],
+    )
 
-    acs_handler = acs_handler_factory(lambda d: d)
+    acs_handler = acs_handler_factory('test')
 
     with appctx.test_request_context(), patch(
             'flask_sso_saml.utils.SAMLAuth') as mock_saml_auth:
@@ -74,15 +73,13 @@ def test_acs_handler_factory(appctx, db):
 def test_acs_handler_authetication_error(appctx, db):
     """Test ACS handler factory authentication errors."""
     attrs = dict(
-        user=dict(
-            email='federico@example.com',
-            profile=dict(username='federico', full_name='Federico Fernandez'),
-        ),
-        external_id='12345679abcdf',
-        external_method='example',
-        active=True)
+        email=['federico@example.com'],
+        name=['federico'],
+        surname=['Fernandez'],
+        external_id=['12345679abcdf'],
+    )
 
-    acs_handler = acs_handler_factory(lambda d: d)
+    acs_handler = acs_handler_factory('test')
 
     with appctx.test_request_context(
     ), patch('flask_sso_saml.utils.SAMLAuth') as mock_saml_auth, patch(
@@ -96,15 +93,13 @@ def test_acs_handler_authetication_error(appctx, db):
 def test_acs_handler_user_creation_error(appctx, db):
     """Test ACS handler factory user creation errors."""
     attrs = dict(
-        user=dict(
-            email='federico@example.com',
-            profile=dict(username='federico', full_name='Federico Fernandez'),
-        ),
-        external_id='12345679abcdf',
-        external_method='example',
-        active=True)
+        email=['federico@example.com'],
+        name=['federico'],
+        surname=['Fernandez'],
+        external_id=['12345679abcdf'],
+    )
 
-    acs_handler = acs_handler_factory(lambda d: d)
+    acs_handler = acs_handler_factory('test')
 
     with appctx.test_request_context(), patch(
             'flask_sso_saml.utils.SAMLAuth') as mock_saml_auth, patch(

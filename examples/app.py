@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2019 Esteban J. Garcia Gabancho.
+# Copyright (C) 2021 Graz University of Technology.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -139,6 +140,12 @@ app.config.update(
     USERPROFILES_EXTEND_SECURITY_FORMS=True,
     SECURITY_CONFIRMABLE=False,
     SECURITY_SEND_REGISTER_EMAIL=False,
+    APP_THEME=['semantic-ui'],
+    THEME_ICONS={
+        'semantic-ui': dict(
+            link='linkify icon'
+        )
+    }
 )
 
 Babel(app)

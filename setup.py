@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 #
+# Copyright (C) 2019-2021 CERN.
 # Copyright (C) 2019 Esteban J. Garcia Gabancho.
+# Copyright (C) 2021 Graz University of Technology.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -15,32 +17,27 @@ readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
 tests_require = [
-    'check-manifest>=0.25',
-    'coverage>=4.0',
-    'invenio-app>=1.0.4',
+    'invenio-app>=1.3.0',
     'invenio-mail>=1.0.0',
     'invenio-userprofiles>=1.0.0',
-    'isort>=4.3.3',
     'mock>=2.0.0',
-    'pydocstyle>=2.0.0',
-    'pytest-cov>=2.5.1',
-    'pytest-invenio>=1.1.0',
-    'pytest-pep8>=1.0.6',
     'redis>=2.10.5',
+    'pytest-invenio>=1.4.0',
+    'invenio-oauthclient>=1.4.0'
 ]
 
 extras_require = {
     'docs': [
-        'Sphinx>=1.5.1',
+        'Sphinx>=3.3.1,<3.4',
     ],
     'mysql': [
-        'invenio-db[mysql]>=1.0.0',
+        'invenio-db[mysql]>=1.0.9',
     ],
     'postgresql': [
-        'invenio-db[postgresql]>=1.0.0',
+        'invenio-db[postgresql]>=1.0.9',
     ],
      'sqlite': [
-        'invenio-db>=1.0.0',
+        'invenio-db>=1.0.9',
     ],
     'tests': tests_require,
 }
@@ -58,7 +55,7 @@ setup_requires = [
 
 install_requires = [
     'flask-sso-saml>=0.1.0',
-    'invenio-accounts>=1.1.1',
+    'invenio-accounts>=1.4.0',
     # TODO: Remove once duplicated code gets integrated
     'uritools>=2.2.0',
 ]
@@ -80,8 +77,8 @@ setup(
     keywords='invenio SSO SAML',
     license='MIT',
     author='Esteban J. Garcia Gabancho',
-    author_email='egabancho@gmail.com',
-    url='https://github.com/egabancho/invenio-saml',
+    author_email='info@inveniosoftware.org',
+    url='https://github.com/inveniosoftware/invenio-saml',
     packages=packages,
     zip_safe=False,
     include_package_data=True,
@@ -109,10 +106,9 @@ setup(
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Development Status :: 1 - Planning',
     ],
 )
