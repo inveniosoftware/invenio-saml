@@ -23,13 +23,12 @@ def account_info(attributes, remote_app):
     :param attributes: (dict) dictionary of data returned by identity provider.
     :param remote_app: (str) Identity provider key.
     :returns: (dict) A dictionary representing user to create or update.
-    """
 
-    """ mappings
+
+    :mappings
     extracts the mapping or attributes for given remote_app
     """
     mappings = current_app.config['SSO_SAML_IDPS'][remote_app]['settings']['mappings']
-
     name = attributes[mappings['name']][0]
     email = attributes[mappings['email']][0]
     user_unique_id = attributes[mappings['user_unique_id']][0]
@@ -115,7 +114,6 @@ def acs_handler_factory(remote_app, account_setup=default_account_setup):
             current_app.logger.debug(
                 'Metadata received from IdP %s', auth.get_attributes()
             )
-            # _account_info = account_info(auth.get_attributes())
             _account_info = account_info(auth.get_attributes(), remote_app)
             current_app.logger.debug(
                 'Metadata extracted from IdP %s', _account_info
