@@ -19,12 +19,10 @@ from .invenio_app import get_safe_redirect_target
 
 
 def account_info(attributes, remote_app):
-    print('Attributes:..................... ', attributes)
     """Return account info for remote user.
     :param attributes: (dict) dictionary of data returned by identity provider.
     :param remote_app: (str) Identity provider key.
     :returns: (dict) A dictionary representing user to create or update.
-
 
     :mappings
     extracts the mapping or attributes for given remote_app
