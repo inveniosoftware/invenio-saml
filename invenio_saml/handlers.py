@@ -19,6 +19,7 @@ from .invenio_app import get_safe_redirect_target
 
 
 def account_info(attributes, remote_app):
+    print('Attributes:..................... ', attributes)
     """Return account info for remote user.
     :param attributes: (dict) dictionary of data returned by identity provider.
     :param remote_app: (str) Identity provider key.
@@ -28,17 +29,18 @@ def account_info(attributes, remote_app):
     :mappings
     extracts the mapping or attributes for given remote_app
     """
-    mappings = current_app.config['SSO_SAML_IDPS'][remote_app]['settings']['mappings']
-    name = attributes[mappings['name']][0]
+    mappings = current_app.config['SSO_SAML_IDPS'][remote_app]['mappings']
+    full_name = attributes[mappings['full_name']][0]
+    username = attributes[mappings['username']][0]
     email = attributes[mappings['email']][0]
-    user_unique_id = attributes[mappings['user_unique_id']][0]
+    external_id = attributes[mappings['external_id']][0]
 
     return dict(
         user=dict(
             email=email,
-            profile=dict(full_name=name, username=name),
+            profile=dict(username=username, full_name=full_name),
         ),
-        external_id=user_unique_id,
+        external_id=external_id,
         external_method=remote_app,
         active=True
     )
