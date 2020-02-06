@@ -113,7 +113,6 @@ def acs_handler_factory(remote_app, account_setup=default_account_setup):
 
     :return: function to be used as ACS handler
     """
-
     def default_acs_handler(auth, next_url):
         """Default ACS handler.
 
