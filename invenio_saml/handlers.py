@@ -27,7 +27,16 @@ def account_info(attributes, remote_app):
     :mappings
     extracts the mapping or attributes for given remote_app
     """
-    mappings = current_app.config['SSO_SAML_IDPS'][remote_app]['mappings']
+    if current_app.config['SSO_SAML_IDPS']:
+        mappings = current_app.config['SSO_SAML_IDPS'][remote_app]['mappings']
+    else:
+        mappings = {
+            "email": "email",
+            "full_name": "full_name",
+            "username": "username",
+            "external_id": "external_id",
+        }
+
     full_name = attributes[mappings['full_name']][0]
     username = attributes[mappings['username']][0]
     email = attributes[mappings['email']][0]
