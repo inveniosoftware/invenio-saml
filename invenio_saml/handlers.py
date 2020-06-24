@@ -35,20 +35,20 @@ def account_info(attributes, remote_app):
     else:
         mappings = {
             "email": "email",
-            "full_name": "full_name",
-            "username": "username",
+            "name": "name",
+            "surname": "surname",
             "external_id": "external_id",
         }
 
-    full_name = attributes[mappings['full_name']][0]
-    username = attributes[mappings['username']][0]
+    name = attributes[mappings['name']][0]
+    surname = attributes[mappings['surname']][0]
     email = attributes[mappings['email']][0]
     external_id = attributes[mappings['external_id']][0]
 
     return dict(
         user=dict(
             email=email,
-            profile=dict(username=username, full_name=full_name),
+            profile=dict(username=surname, full_name=name+" "+surname),
         ),
         external_id=external_id,
         external_method=remote_app,
