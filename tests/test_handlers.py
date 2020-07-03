@@ -53,8 +53,8 @@ def test_acs_handler_factory(appctx, db):
     """Test ACS handler factory."""
     attrs = dict(
         email=['federico@example.com'],
-        username=['federico'],
-        full_name=['Federico Fernandez'],
+        name=['federico'],
+        surname=['Fernandez'],
         external_id=['12345679abcdf'],
     )
 
@@ -73,8 +73,8 @@ def test_acs_handler_authetication_error(appctx, db):
     """Test ACS handler factory authentication errors."""
     attrs = dict(
         email=['federico@example.com'],
-        username=['federico'],
-        full_name=['Federico Fernandez'],
+        name=['federico'],
+        surname=['Fernandez'],
         external_id=['12345679abcdf'],
     )
 
@@ -93,8 +93,8 @@ def test_acs_handler_user_creation_error(appctx, db):
     """Test ACS handler factory user creation errors."""
     attrs = dict(
         email=['federico@example.com'],
-        username=['federico'],
-        full_name=['Federico Fernandez'],
+        name=['federico'],
+        surname=['Fernandez'],
         external_id=['12345679abcdf'],
     )
 
