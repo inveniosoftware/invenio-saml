@@ -58,7 +58,7 @@ setup_requires = [
 
 install_requires = [
     'flask-sso-saml>=0.1.0',
-    'invenio-accounts>=1.1.1',
+    'invenio-accounts>=1.2.0',
     # TODO: Remove once duplicated code gets integrated
     'uritools>=2.2.0',
 ]
@@ -80,8 +80,8 @@ setup(
     keywords='invenio SSO SAML',
     license='MIT',
     author='Esteban J. Garcia Gabancho',
-    author_email='egabancho@gmail.com',
-    url='https://github.com/egabancho/invenio-saml',
+    author_email='info@inveniosoftware.org',
+    url='https://github.com/inveniosoftware/invenio-saml',
     packages=packages,
     zip_safe=False,
     include_package_data=True,
@@ -109,10 +109,9 @@ setup(
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Development Status :: 1 - Planning',
     ],
 )
