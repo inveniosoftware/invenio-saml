@@ -25,3 +25,4 @@ recursive-include examples *.sh
 recursive-include invenio_saml *.html
 recursive-include invenio_saml/translations *.po *.pot *.mo
 recursive-include tests *.py
+recursive-include .github/workflows *.yml
