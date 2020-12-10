@@ -8,8 +8,8 @@
  Invenio-SAML
 ==============
 
-.. image:: https://img.shields.io/travis/inveniosoftware/invenio-saml.svg
-        :target: https://travis-ci.org/inveniosoftware/invenio-saml
+.. image:: https://github.com/inveniosoftware/invenio-saml/workflows/CI/badge.svg
+        :target: https://github.com/inveniosoftware/invenio-saml/actions?query=workflow%3ACI
 
 .. image:: https://img.shields.io/coveralls/inveniosoftware/invenio-saml.svg
         :target: https://coveralls.io/r/inveniosoftware/invenio-saml
