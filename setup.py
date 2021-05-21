@@ -90,9 +90,6 @@ setup(
         'invenio_base.api_apps': [
             'invenio_saml = invenio_saml:InvenioSAML',
         ],
-        'invenio_db.models': [
-            'invenio_saml = invenio_saml.invenio_accounts.models',
-        ],
     },
     extras_require=extras_require,
     install_requires=install_requires,

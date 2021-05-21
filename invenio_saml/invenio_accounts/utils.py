@@ -19,11 +19,11 @@ from flask_security.registerable import register_user
 # from .models import User
 from invenio_accounts.models import User
 from invenio_db import db
+from invenio_oauthclient.models import UserIdentity
 from sqlalchemy.exc import IntegrityError
 from werkzeug.local import LocalProxy
 
 from .errors import AlreadyLinkedError
-from .models import UserIdentity
 
 _security = LocalProxy(lambda: current_app.extensions['security'])
 

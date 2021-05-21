@@ -11,12 +11,12 @@ import pytest
 from flask_security import current_user, login_user
 from invenio_accounts.models import User
 from invenio_db import db
+from invenio_oauthclient.models import UserIdentity
 from mock import patch
 from werkzeug.exceptions import Unauthorized
 
 from invenio_saml.handlers import acs_handler_factory, default_account_setup, \
     default_sls_handler
-from invenio_saml.invenio_accounts.models import UserIdentity
 
 
 def test_default_account_setup(users):
