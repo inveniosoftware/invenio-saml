@@ -19,7 +19,6 @@ Invenio-SAML.
    installation
    configuration
    usage
-   examplesapp
 
 
 API Reference
