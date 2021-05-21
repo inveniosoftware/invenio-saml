@@ -11,11 +11,12 @@ from flask import abort, current_app
 from flask_login import current_user
 from flask_security import logout_user
 from invenio_db import db
+from invenio_oauthclient.errors import AlreadyLinkedError
+from invenio_oauthclient.utils import create_csrf_disabled_registrationform, \
+    fill_form
 
-from .invenio_accounts.errors import AlreadyLinkedError
 from .invenio_accounts.utils import account_authenticate, account_get_user, \
-    account_link_external_id, account_register, \
-    create_csrf_disabled_registrationform, fill_form
+    account_link_external_id, account_register
 from .invenio_app import get_safe_redirect_target
 
 
