@@ -138,7 +138,7 @@ def acs_handler_factory(remote_app, account_setup=default_account_setup):
             user = account_get_user(_account_info)
 
             if user is None:
-                form = create_csrf_disabled_registrationform()
+                form = create_csrf_disabled_registrationform(remote_app)
                 form = fill_form(form, _account_info['user'])
                 user = account_register(form)
 
