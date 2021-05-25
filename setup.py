@@ -23,7 +23,7 @@ tests_require = [
     'mock>=2.0.0',
     'redis>=2.10.5',
     'pytest-invenio>=1.4.0',
-    'invenio-oauthclient>=1.4.0'
+    'invenio-oauthclient>=1.5.1'
 ]
 
 extras_require = {
@@ -89,6 +89,9 @@ setup(
         ],
         'invenio_base.api_apps': [
             'invenio_saml = invenio_saml:InvenioSAML',
+        ],
+        "invenio_base.blueprints": [
+            "invenio_saml = invenio_saml.views:blueprint",
         ],
     },
     extras_require=extras_require,
