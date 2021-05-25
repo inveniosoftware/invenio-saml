@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 #
+# Copyright (C) 2019-2021 CERN.
 # Copyright (C) 2019 Esteban J. Garcia Gabancho.
+# Copyright (C) 2021 Graz University of Technology.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -26,16 +28,16 @@ tests_require = [
 
 extras_require = {
     'docs': [
-        'Sphinx>=3',
+        'Sphinx>=3.3.1,<3.4',
     ],
     'mysql': [
-        'invenio-db[mysql]>=1.0.0',
+        'invenio-db[mysql]>=1.0.9',
     ],
     'postgresql': [
-        'invenio-db[postgresql]>=1.0.0',
+        'invenio-db[postgresql]>=1.0.9',
     ],
      'sqlite': [
-        'invenio-db>=1.0.0',
+        'invenio-db>=1.0.9',
     ],
     'tests': tests_require,
 }
@@ -75,8 +77,8 @@ setup(
     keywords='invenio SSO SAML',
     license='MIT',
     author='Esteban J. Garcia Gabancho',
-    author_email='egabancho@gmail.com',
-    url='https://github.com/egabancho/invenio-saml',
+    author_email='info@inveniosoftware.org',
+    url='https://github.com/inveniosoftware/invenio-saml',
     packages=packages,
     zip_safe=False,
     include_package_data=True,
@@ -87,9 +89,6 @@ setup(
         ],
         'invenio_base.api_apps': [
             'invenio_saml = invenio_saml:InvenioSAML',
-        ],
-        'invenio_db.models': [
-            'invenio_saml = invenio_saml.invenio_accounts.models',
         ],
     },
     extras_require=extras_require,
@@ -104,10 +103,9 @@ setup(
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Development Status :: 1 - Planning',
     ],
 )

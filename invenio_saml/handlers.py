@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2019, 2020 Esteban J. Garcia Gabancho.
+# Copyright (C) 2021 Graz University of Technology.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -10,12 +11,53 @@ from flask import abort, current_app
 from flask_login import current_user
 from flask_security import logout_user
 from invenio_db import db
+from invenio_oauthclient.errors import AlreadyLinkedError
+from invenio_oauthclient.utils import create_csrf_disabled_registrationform, \
+    fill_form
 
-from .invenio_accounts.errors import AlreadyLinkedError
 from .invenio_accounts.utils import account_authenticate, account_get_user, \
-    account_link_external_id, account_register, \
-    create_csrf_disabled_registrationform, fill_form
+    account_link_external_id, account_register
 from .invenio_app import get_safe_redirect_target
+
+
+def account_info(attributes, remote_app):
+    """Return account info for remote user.
+
+    :param attributes: (dict) dictionary of data returned by identity provider.
+
+    :param remote_app: (str) Identity provider key.
+
+    :returns: (dict) A dictionary representing user to create or update.
+
+    :mappings extracts the mapping or attributes for given remote_app.
+
+    """
+    if current_app.config['SSO_SAML_IDPS']:
+        mappings = current_app.config['SSO_SAML_IDPS'][remote_app]['mappings']
+    else:
+        mappings = {
+            "email": "email",
+            "name": "name",
+            "surname": "surname",
+            "external_id": "external_id",
+        }
+
+    name = attributes[mappings['name']][0]
+    surname = attributes[mappings['surname']][0]
+    email = attributes[mappings['email']][0]
+    external_id = attributes[mappings['external_id']][0]
+    username = external_id.split("@")[0] if "@" in external_id else external_id
+
+    return dict(
+        user=dict(
+            email=email,
+            profile=dict(username=username,
+                         full_name=name+" "+surname),
+        ),
+        external_id=external_id,
+        external_method=remote_app,
+        active=True
+    )
 
 
 def default_account_setup(user, account_info):
@@ -38,7 +80,7 @@ def default_sls_handler(auth, next_url):
     return next_url
 
 
-def acs_handler_factory(account_info, account_setup=default_account_setup):
+def acs_handler_factory(remote_app, account_setup=default_account_setup):
     """Generate ACS handlers with an specific account info and setup functions.
 
     .. note::
@@ -87,7 +129,7 @@ def acs_handler_factory(account_info, account_setup=default_account_setup):
             current_app.logger.debug(
                 'Metadata received from IdP %s', auth.get_attributes()
             )
-            _account_info = account_info(auth.get_attributes())
+            _account_info = account_info(auth.get_attributes(), remote_app)
             current_app.logger.debug(
                 'Metadata extracted from IdP %s', _account_info
             )

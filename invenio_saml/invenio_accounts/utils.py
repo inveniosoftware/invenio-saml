@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2019 Esteban J. Garcia Gabancho.
+# Copyright (C) 2019-2021 CERN.
+# Copyright (C) 2021 Graz University of Technology.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -17,11 +19,10 @@ from flask_security.registerable import register_user
 # from .models import User
 from invenio_accounts.models import User
 from invenio_db import db
+from invenio_oauthclient.errors import AlreadyLinkedError
+from invenio_oauthclient.models import UserIdentity
 from sqlalchemy.exc import IntegrityError
 from werkzeug.local import LocalProxy
-
-from .errors import AlreadyLinkedError
-from .models import UserIdentity
 
 _security = LocalProxy(lambda: current_app.extensions['security'])
 
@@ -104,41 +105,6 @@ def create_registrationform(*args, **kwargs):
         recaptcha = None
 
     return RegistrationForm(*args, **kwargs)
-
-
-def _get_csrf_disabled_param():
-    """Return the right param to disable CSRF depending on WTF-Form version.
-
-    From Flask-WTF 0.14.0, `csrf_enabled` param has been deprecated in favor of
-    `meta={csrf: True/False}`.
-    """
-    import flask_wtf
-    from pkg_resources import parse_version
-    supports_meta = parse_version(
-        flask_wtf.__version__) >= parse_version("0.14.0")
-    return dict(meta={'csrf': False}) if supports_meta else \
-        dict(csrf_enabled=False)
-
-
-def create_csrf_disabled_registrationform():
-    """Create a registration form with CSRF disabled."""
-    return create_registrationform(**_get_csrf_disabled_param())
-
-
-def fill_form(form, data):
-    """Prefill form with data.
-
-    :param form: The form to fill.
-    :param data: The data to insert in the form.
-    :returns: A pre-filled form.
-    """
-    for (key, value) in data.items():
-        if hasattr(form, key):
-            if isinstance(value, dict):
-                fill_form(getattr(form, key), value)
-            else:
-                getattr(form, key).data = value
-    return form
 
 
 def account_register(form):
