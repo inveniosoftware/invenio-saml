@@ -46,7 +46,8 @@ def account_info(attributes, remote_app):
     surname = attributes[mappings['surname']][0]
     email = attributes[mappings['email']][0]
     external_id = attributes[mappings['external_id']][0]
-    username = external_id.split("@")[0] if "@" in external_id else external_id
+    username = remote_app + "-" + external_id.split("@")[0] if "@" \
+        in external_id else remote_app + "-" + external_id
 
     return dict(
         user=dict(
