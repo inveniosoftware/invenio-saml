@@ -26,7 +26,7 @@
         </a>
       {% endfor %}
       {%- if config.ACCOUNTS_LOCAL_LOGIN_ENABLED %}
-        <h3 align="center">&mdash; OR &mdash;</h3>
+        <h3 align="center">&mdash; {{ _("OR") }} &mdash;</h3>
       {%- endif %}
     {% endif %}
     {{ super () }}

@@ -92,6 +92,9 @@ setup(
         "invenio_base.blueprints": [
             "invenio_saml = invenio_saml.views:blueprint",
         ],
+        'invenio_i18n.translations': [
+            'invenio_saml = invenio_saml',
+        ],
     },
     extras_require=extras_require,
     install_requires=install_requires,
