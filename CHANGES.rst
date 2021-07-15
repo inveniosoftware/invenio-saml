@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version 1.0.0a1 (released 2021-07-15)
+
+- Marking strings for translation
+- Adds german translation
+
 Version 1.0.0a0 (released 2021-05-27)
 
 - Module refactoring.
