@@ -13,14 +13,17 @@ from flask import request
 from invenio_saml.invenio_app import get_safe_redirect_target
 
 
-@pytest.mark.parametrize('next_url,expected', [
-    ('/', '/'),
-    ('/foo', '/foo'),
-    ('http://not-safe.com', None),
-    ('https://example.com', 'https://example.com'),
-])
+@pytest.mark.parametrize(
+    "next_url,expected",
+    [
+        ("/", "/"),
+        ("/foo", "/foo"),
+        ("http://not-safe.com", None),
+        ("https://example.com", "https://example.com"),
+    ],
+)
 def test_get_safe_redirect(base_app, next_url, expected):
     """Test get safe redirect target."""
-    with base_app.test_request_context(query_string={'next': next_url}):
+    with base_app.test_request_context(query_string={"next": next_url}):
         safe_next = get_safe_redirect_target()
         assert safe_next == expected
