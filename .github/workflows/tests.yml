@@ -32,7 +32,7 @@ jobs:
           python-version: [3.7, 3.8, 3.9]
           requirements-level: [min, pypi]
           cache-service: [redis]
-          db-service: [postgresql9, postgresql11, mysql5, mysql8]
+          db-service: [postgresql9, postgresql13, mysql5, mysql8]
           exclude:
           - python-version: 3.8
             requirements-level: min
@@ -44,7 +44,7 @@ jobs:
           - db-service: postgresql9
             DB_EXTRAS: "postgresql"
 
-          - db-service: postgresql11
+          - db-service: postgresql13
             DB_EXTRAS: "postgresql"
 
           - db-service: mysql5
@@ -56,7 +56,7 @@ jobs:
     env:
       CACHE: ${{ matrix.cache-service }}
       DB: ${{ matrix.db-service }}
-      EXTRAS: all,${{ matrix.DB_EXTRAS }}
+      EXTRAS: tests
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -69,7 +69,7 @@ jobs:
       - name: Generate dependencies
         run: |
           sudo apt-get install -y libxml2-dev libxmlsec1-dev
-          python -m pip install --upgrade pip setuptools py wheel requirements-builder
+          pip install wheel requirements-builder
           requirements-builder -e "$EXTRAS" --level=${{ matrix.requirements-level }} setup.py > .${{ matrix.requirements-level }}-${{ matrix.python-version }}-requirements.txt
 
       - name: Cache pip
