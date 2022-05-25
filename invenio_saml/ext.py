@@ -24,6 +24,6 @@ class InvenioSAML(object):
 
     def init_app(self, app):
         """Flask application initialization."""
-        if 'flask-sso-saml' not in app.extensions:
+        if "flask-sso-saml" not in app.extensions:
             FlaskSSOSAML(app)
-        app.extensions['invenio-saml'] = self
+        app.extensions["invenio-saml"] = self

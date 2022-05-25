@@ -17,17 +17,18 @@ from invenio_saml import InvenioSAML
 def test_version():
     """Test version import."""
     from invenio_saml import __version__
+
     assert __version__
 
 
 def test_init():
     """Test extension initialization."""
-    app = Flask('testapp')
+    app = Flask("testapp")
     ext = InvenioSAML(app)
-    assert 'invenio-saml' in app.extensions
+    assert "invenio-saml" in app.extensions
 
-    app = Flask('testapp')
+    app = Flask("testapp")
     ext = InvenioSAML()
-    assert 'invenio-saml' not in app.extensions
+    assert "invenio-saml" not in app.extensions
     ext.init_app(app)
-    assert 'invenio-saml' in app.extensions
+    assert "invenio-saml" in app.extensions

@@ -15,15 +15,17 @@ from invenio_oauthclient.models import UserIdentity
 from mock import patch
 from werkzeug.exceptions import Unauthorized
 
-from invenio_saml.handlers import acs_handler_factory, default_account_setup, \
-    default_sls_handler
+from invenio_saml.handlers import (
+    acs_handler_factory,
+    default_account_setup,
+    default_sls_handler,
+)
 
 
 def test_default_account_setup(users):
     """Test default user account setup."""
-    user = User.query.filter_by(email='federico@example.com').one()
-    account_info = dict(
-        external_id=123456, external_method='external', other='foo')
+    user = User.query.filter_by(email="federico@example.com").one()
+    account_info = dict(external_id=123456, external_method="external", other="foo")
 
     default_account_setup(user, account_info)
 
@@ -41,70 +43,75 @@ def test_default_account_setup(users):
 def test_default_sls_handler(appctx, users):
     """Test default SLS handler."""
     with appctx.test_request_context():
-        user = User.query.filter_by(email='federico@example.com').one()
+        user = User.query.filter_by(email="federico@example.com").one()
         login_user(user)
         assert current_user.is_authenticated
         # call the SLS handler
-        next_url = default_sls_handler(None, '/foo')
+        next_url = default_sls_handler(None, "/foo")
         assert not current_user.is_authenticated
-        assert next_url == '/foo'
+        assert next_url == "/foo"
 
 
 def test_acs_handler_factory(appctx, db):
     """Test ACS handler factory."""
     attrs = dict(
-        email=['federico@example.com'],
-        name=['federico'],
-        surname=['Fernandez'],
-        external_id=['12345679abcdf'],
+        email=["federico@example.com"],
+        name=["federico"],
+        surname=["Fernandez"],
+        external_id=["12345679abcdf"],
     )
 
-    acs_handler = acs_handler_factory('test')
+    acs_handler = acs_handler_factory("test")
 
     with appctx.test_request_context(), patch(
-            'flask_sso_saml.utils.SAMLAuth') as mock_saml_auth:
+        "flask_sso_saml.utils.SAMLAuth"
+    ) as mock_saml_auth:
         mock_saml_auth.get_attributes.return_value = attrs
-        next_url = acs_handler(mock_saml_auth, '/foo')
+        next_url = acs_handler(mock_saml_auth, "/foo")
 
-        assert next_url == '/foo'
+        assert next_url == "/foo"
         assert current_user.is_authenticated
 
 
 def test_acs_handler_authetication_error(appctx, db):
     """Test ACS handler factory authentication errors."""
     attrs = dict(
-        email=['federico@example.com'],
-        name=['federico'],
-        surname=['Fernandez'],
-        external_id=['12345679abcdf'],
+        email=["federico@example.com"],
+        name=["federico"],
+        surname=["Fernandez"],
+        external_id=["12345679abcdf"],
     )
 
-    acs_handler = acs_handler_factory('test')
+    acs_handler = acs_handler_factory("test")
 
-    with appctx.test_request_context(
-    ), patch('flask_sso_saml.utils.SAMLAuth') as mock_saml_auth, patch(
-            'invenio_saml.handlers.account_authenticate') as mock_authenticate:
+    with appctx.test_request_context(), patch(
+        "flask_sso_saml.utils.SAMLAuth"
+    ) as mock_saml_auth, patch(
+        "invenio_saml.handlers.account_authenticate"
+    ) as mock_authenticate:
         mock_saml_auth.get_attributes.return_value = attrs
         mock_authenticate.return_value = False
         with pytest.raises(Unauthorized):
-            next_url = acs_handler(mock_saml_auth, '/foo')
+            next_url = acs_handler(mock_saml_auth, "/foo")
 
 
 def test_acs_handler_user_creation_error(appctx, db):
     """Test ACS handler factory user creation errors."""
     attrs = dict(
-        email=['federico@example.com'],
-        name=['federico'],
-        surname=['Fernandez'],
-        external_id=['12345679abcdf'],
+        email=["federico@example.com"],
+        name=["federico"],
+        surname=["Fernandez"],
+        external_id=["12345679abcdf"],
     )
 
-    acs_handler = acs_handler_factory('test')
+    acs_handler = acs_handler_factory("test")
 
     with appctx.test_request_context(), patch(
-            'flask_sso_saml.utils.SAMLAuth') as mock_saml_auth, patch(
-                'invenio_saml.handlers.account_register') as mock_register:
+        "flask_sso_saml.utils.SAMLAuth"
+    ) as mock_saml_auth, patch(
+        "invenio_saml.handlers.account_register"
+    ) as mock_register:
         mock_saml_auth.get_attributes.return_value = attrs
         mock_register.return_value = None
         with pytest.raises(Unauthorized):
-            next_url = acs_handler(mock_saml_auth, '/foo')
+            next_url = acs_handler(mock_saml_auth, "/foo")
