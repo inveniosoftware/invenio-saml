@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2019, 2020 Esteban J. Garcia Gabancho.
-# Copyright (C) 2021 Graz University of Technology.
+# Copyright (C) 2021-2022 Graz University of Technology.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 """Default handlers for SSO-SAML."""
+
+from datetime import datetime
 
 from flask import abort, current_app
 from flask_login import current_user
@@ -35,8 +37,9 @@ def account_info(attributes, remote_app):
     :mappings extracts the mapping or attributes for given remote_app.
 
     """
-    if current_app.config["SSO_SAML_IDPS"]:
-        mappings = current_app.config["SSO_SAML_IDPS"][remote_app]["mappings"]
+    remote_app_config = current_app.config["SSO_SAML_IDPS"].get(remote_app, {})
+    if remote_app_config:
+        mappings = remote_app_config["mappings"]
     else:
         mappings = {
             "email": "email",
@@ -63,6 +66,9 @@ def account_info(attributes, remote_app):
         external_id=external_id,
         external_method=remote_app,
         active=True,
+        confirmed_at=datetime.utcnow().isoformat()
+        if remote_app_config.get("auto_confirm", False)
+        else None,
     )
 
 
@@ -148,7 +154,9 @@ def acs_handler_factory(remote_app, account_setup=default_account_setup):
             if user is None:
                 form = create_csrf_disabled_registrationform(remote_app)
                 form = fill_form(form, _account_info["user"])
-                user = account_register(form)
+                user = account_register(
+                    form, confirmed_at=_account_info["confirmed_at"]
+                )
 
             # if registration fails ... TODO: signup?
             if user is None or not account_authenticate(user):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2019 Esteban J. Garcia Gabancho.
-# Copyright (C) 2021 Graz University of Technology.
+# Copyright (C)      2019 Esteban J. Garcia Gabancho.
+# Copyright (C) 2021-2022 Graz University of Technology.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -71,6 +71,40 @@ def test_acs_handler_factory(appctx, db):
 
         assert next_url == "/foo"
         assert current_user.is_authenticated
+        assert current_user.confirmed_at == None
+
+
+def test_acs_handler_factory_config(appctx, db):
+    """Test ACS handler factory with config."""
+
+    appctx.config["SSO_SAML_IDPS"] = {
+        "test": {
+            "mappings": {
+                "email": "email",
+                "name": "name",
+                "surname": "surname",
+                "external_id": "external_id",
+            },
+            "auto_confirm": True,
+        }
+    }
+    attrs = dict(
+        email=["federico@example.com"],
+        name=["federico"],
+        surname=["Fernandez"],
+        external_id=["12345679abcdf"],
+    )
+
+    acs_handler = acs_handler_factory("test")
+
+    with appctx.test_request_context(), patch(
+        "flask_sso_saml.utils.SAMLAuth"
+    ) as mock_saml_auth:
+        mock_saml_auth.get_attributes.return_value = attrs
+        next_url = acs_handler(mock_saml_auth, "/foo")
+
+        assert current_user.is_authenticated
+        assert current_user.confirmed_at
 
 
 def test_acs_handler_authetication_error(appctx, db):

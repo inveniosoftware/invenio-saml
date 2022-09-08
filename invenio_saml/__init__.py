@@ -39,7 +39,8 @@ This is how you can use them (there is a more complete example on
                     full_name=info['User.FirstName'][0])),
             external_id=info['User.email'][0],
             external_method='onelogin',
-            active=True)
+            active=True,
+            confirmed_at=None)
 
     SSO_SAML_IDPS={
             '<idp-name>': {
@@ -57,6 +58,7 @@ This is how you can use them (there is a more complete example on
                 },
                 'acs_handler': acs_handler_factory(account_info),
                 'sls_handler': default_sls_handler,
+                'auto_confirm: False,
             }
         },
 
