@@ -58,7 +58,7 @@ This is how you can use them (there is a more complete example on
                 },
                 'acs_handler': acs_handler_factory(account_info),
                 'sls_handler': default_sls_handler,
-                'auto_confirm: False,
+                'auto_confirm': False,
             }
         },
 
