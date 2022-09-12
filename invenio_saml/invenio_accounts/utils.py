@@ -110,14 +110,17 @@ def create_registrationform(*args, **kwargs):
     return RegistrationForm(*args, **kwargs)
 
 
-def account_register(form):
+def account_register(form, confirmed_at=None):
     """Register user if possible.
 
     :param form: A form instance.
     :returns: A :class:`invenio_accounts.models.User` instance.
     """
     if form.validate():
-        data = form.to_dict()
+        data = {
+            **form.to_dict(),
+            "confirmed_at": confirmed_at,
+        }
         if not data.get("password"):
             data["password"] = ""
         user = register_user(**data)
