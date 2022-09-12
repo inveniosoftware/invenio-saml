@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version 1.0.0a2 (released 2022-09-12)
+
+- Add auto_confirm, confirm user email address
+
 Version 1.0.0a1 (released 2021-07-15)
 
 - Marking strings for translation
