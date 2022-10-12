@@ -23,6 +23,10 @@ jobs:
         with:
           python-version: ${{ env.PYTHON-VERSION }}
 
+      - name: install extra dependencies
+        run: |
+          sudo apt-get install -y libxml2-dev libxmlsec1-dev
+
       # install dependencies
       - name: Install dependencies
         run: |
