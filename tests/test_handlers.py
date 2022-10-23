@@ -64,7 +64,7 @@ def test_acs_handler_factory(appctx, db):
     acs_handler = acs_handler_factory("test")
 
     with appctx.test_request_context(), patch(
-        "flask_sso_saml.utils.SAMLAuth"
+        "invenio_saml.utils.SAMLAuth"
     ) as mock_saml_auth:
         mock_saml_auth.get_attributes.return_value = attrs
         next_url = acs_handler(mock_saml_auth, "/foo")
@@ -98,7 +98,7 @@ def test_acs_handler_factory_config(appctx, db):
     acs_handler = acs_handler_factory("test")
 
     with appctx.test_request_context(), patch(
-        "flask_sso_saml.utils.SAMLAuth"
+        "invenio_saml.utils.SAMLAuth"
     ) as mock_saml_auth:
         mock_saml_auth.get_attributes.return_value = attrs
         next_url = acs_handler(mock_saml_auth, "/foo")
@@ -119,7 +119,7 @@ def test_acs_handler_authetication_error(appctx, db):
     acs_handler = acs_handler_factory("test")
 
     with appctx.test_request_context(), patch(
-        "flask_sso_saml.utils.SAMLAuth"
+        "invenio_saml.utils.SAMLAuth"
     ) as mock_saml_auth, patch(
         "invenio_saml.handlers.account_authenticate"
     ) as mock_authenticate:
@@ -141,7 +141,7 @@ def test_acs_handler_user_creation_error(appctx, db):
     acs_handler = acs_handler_factory("test")
 
     with appctx.test_request_context(), patch(
-        "flask_sso_saml.utils.SAMLAuth"
+        "invenio_saml.utils.SAMLAuth"
     ) as mock_saml_auth, patch(
         "invenio_saml.handlers.account_register"
     ) as mock_register:

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2019, 2020 Esteban J. Garcia Gabancho.
+# Copyright (C) 2019, 2020, 2022 Esteban J. Garcia Gabancho.
 # Copyright (C) 2021-2022 Graz University of Technology.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
@@ -66,7 +66,7 @@ def account_info(attributes, remote_app):
         external_id=external_id,
         external_method=remote_app,
         active=True,
-        confirmed_at=datetime.utcnow().isoformat()
+        confirmed_at=datetime.utcnow()
         if remote_app_config.get("auto_confirm", False)
         else None,
     )
@@ -136,7 +136,7 @@ def acs_handler_factory(remote_app, account_setup=default_account_setup):
     def default_acs_handler(auth, next_url):
         """Default ACS handler.
 
-        :para auth: A :class:`flask_sso_saml.utils.SAMLAuth` instance.
+        :para auth: A :class:`invenio_saml.utils.SAMLAuth` instance.
         :param next_url: String with the next URL to redirect to.
 
         :return: Next URL
