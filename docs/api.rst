@@ -8,11 +8,11 @@
 API Docs
 ========
 
-.. automodule:: invenio_saml.ext
+.. automodule:: ultraviolet_saml.ext
    :members:
 
 Default handlers
 ----------------
 
-.. automodule:: invenio_saml.handlers
+.. automodule:: ultraviolet_saml.handlers
    :members:

@@ -87,9 +87,9 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/Invenio-SAML.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/Ultraviolet-SAML.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/Invenio-SAML.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/Ultraviolet-SAML.qhc"
 
 applehelp:
 	$(SPHINXBUILD) -b applehelp $(ALLSPHINXOPTS) $(BUILDDIR)/applehelp
@@ -104,8 +104,8 @@ devhelp:
 	@echo
 	@echo "Build finished."
 	@echo "To view the help file:"
-	@echo "# mkdir -p $$HOME/.local/share/devhelp/Invenio-SAML"
-	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/Invenio-SAML"
+	@echo "# mkdir -p $$HOME/.local/share/devhelp/Ultraviolet-SAML"
+	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/Ultraviolet-SAML"
 	@echo "# devhelp"
 
 epub:

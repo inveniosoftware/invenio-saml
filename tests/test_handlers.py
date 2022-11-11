@@ -15,12 +15,11 @@ from invenio_oauthclient.models import UserIdentity
 from mock import patch
 from werkzeug.exceptions import Unauthorized
 
-from invenio_saml.handlers import (
+from ultraviolet_saml.handlers import (
     acs_handler_factory,
     default_account_setup,
     default_sls_handler,
 )
-
 
 def test_default_account_setup(users):
     """Test default user account setup."""
@@ -121,7 +120,7 @@ def test_acs_handler_authetication_error(appctx, db):
     with appctx.test_request_context(), patch(
         "flask_sso_saml.utils.SAMLAuth"
     ) as mock_saml_auth, patch(
-        "invenio_saml.handlers.account_authenticate"
+        "ultraviolet_saml.handlers.account_authenticate"
     ) as mock_authenticate:
         mock_saml_auth.get_attributes.return_value = attrs
         mock_authenticate.return_value = False
@@ -143,7 +142,7 @@ def test_acs_handler_user_creation_error(appctx, db):
     with appctx.test_request_context(), patch(
         "flask_sso_saml.utils.SAMLAuth"
     ) as mock_saml_auth, patch(
-        "invenio_saml.handlers.account_register"
+        "ultraviolet_saml.handlers.account_register"
     ) as mock_register:
         mock_saml_auth.get_attributes.return_value = attrs
         mock_register.return_value = None

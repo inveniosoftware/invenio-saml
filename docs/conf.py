@@ -10,7 +10,7 @@
 
 from __future__ import print_function
 
-from invenio_saml import __version__
+from ultraviolet_saml import __version__
 
 # -- General configuration ------------------------------------------------
 
@@ -46,9 +46,9 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "Invenio-SAML"
+project = "Ultraviolet-SAML"
 copyright = "2019, Esteban J. Garcia Gabancho"
-author = "Esteban J. Garcia Gabancho"
+author = "Esteban J. Garcia Gabancho, Akshay Udaya Hegde"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -108,15 +108,14 @@ todo_include_todos = False
 html_theme = "alabaster"
 
 html_theme_options = {
-    "description": "Invenio module that provides SAML integration.",
-    "github_user": "inveniosoftware",
-    "github_repo": "invenio-saml",
+    "description": "Ultraviolet module that provides SAML integration. Fork of Invenio-SAML",
+    "github_user": "nyu-dlts",
+    "github_repo": "ultraviolet-saml",
     "github_button": False,
     "github_banner": True,
     "show_powered_by": False,
     "extra_nav_links": {
-        "invenio-saml@GitHub": "https://github.com/egabancho/invenio-saml",
-        "invenio-saml@PyPI": "https://pypi.python.org/pypi/invenio-saml/",
+        "ultraviolet-saml@GitHub": "https://github.com/nyu-dlts/ultraviolet-saml"
     },
 }
 
@@ -221,7 +220,7 @@ html_sidebars = {
 # html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "invenio-saml_namedoc"
+htmlhelp_basename = "ultraviolet-saml_namedoc"
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -245,9 +244,9 @@ htmlhelp_basename = "invenio-saml_namedoc"
 latex_documents = [
     (
         master_doc,
-        "invenio-saml.tex",
-        "invenio-saml Documentation",
-        "Esteban J. Garcia Gabancho",
+        "ultraviolet-saml.tex",
+        "ultraviolet-saml Documentation",
+        "Esteban J. Garcia Gabancho, Akshay Udaya Hegde",
         "manual",
     ),
 ]
@@ -277,7 +276,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "invenio-saml", "invenio-saml Documentation", [author], 1)]
+man_pages = [(master_doc, "ultraviolet-saml", "ultraviolet-saml Documentation", [author], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -291,11 +290,11 @@ man_pages = [(master_doc, "invenio-saml", "invenio-saml Documentation", [author]
 texinfo_documents = [
     (
         master_doc,
-        "invenio-saml",
-        "Invenio-SAML Documentation",
+        "ultraviolet-saml",
+        "Ultraviolet-SAML Documentation",
         author,
-        "invenio-saml",
-        "Invenio module that provides SAML integration.",
+        "ultraviolet-saml",
+        "Ultraviolet module that provides SAML integration.",
         "Miscellaneous",
     ),
 ]

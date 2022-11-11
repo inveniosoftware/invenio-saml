@@ -5,7 +5,7 @@
     under the terms of the MIT License; see LICENSE file for more details.
 
 ==============
- Invenio-SAML
+Ultraviolet-SAML
 ==============
 
 .. image:: https://github.com/inveniosoftware/invenio-saml/workflows/CI/badge.svg
@@ -23,7 +23,7 @@
 .. image:: https://img.shields.io/github/license/inveniosoftware/invenio-saml.svg
         :target: https://github.com/inveniosoftware/invenio-saml/blob/master/LICENSE
 
-Invenio module that provides SAML integration.
+Fork of Invenio module that provides SAML integration for NYU Ultraviolet.
 
 TODO: Please provide feature overview of module
 

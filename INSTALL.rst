@@ -5,10 +5,10 @@ Invenio-SAML is on PyPI so all you need is:
 
 .. code-block:: console
 
-   $ pip install invenio-saml
+   $ pip install ultraviolet-saml
 
 
-Make sure you have installed in your system: 
+Make sure you have installed in your system:
 
 .. code-block:: console
 
