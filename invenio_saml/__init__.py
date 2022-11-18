@@ -73,6 +73,6 @@ from __future__ import absolute_import, print_function
 
 from .ext import InvenioSAML
 
-__version__ = "1.0.0a2"
+__version__ = "1.0.0a3"
 
 __all__ = ("__version__", "InvenioSAML")
