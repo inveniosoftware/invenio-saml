@@ -24,6 +24,10 @@ from .ultraviolet_accounts.utils import (
 )
 from .ultraviolet_app import get_safe_redirect_target
 
+from invenio_access.permissions import system_identity
+from werkzeug.local import LocalProxy
+current_communities = LocalProxy(lambda: current_app.extensions["invenio-communities"])
+
 
 def account_info(attributes, remote_app):
     """Return account info for remote user.
@@ -40,20 +44,26 @@ def account_info(attributes, remote_app):
     remote_app_config = current_app.config["SSO_SAML_IDPS"].get(remote_app, {})
     if remote_app_config:
         mappings = remote_app_config["mappings"]
-        remote_app_role = remote_app_config["default_role"]
     else:
         mappings = {
-            "email": "email",
-            "name": "name",
+            "email": "eduPersonPrincipleName",
+            "name": "givenName",
             "surname": "surname",
-            "external_id": "external_id"
+            "external_id": "uid",
         }
-        remote_app_role = "nyuusers"
 
     name = attributes[mappings["name"]][0]
     surname = attributes[mappings["surname"]][0]
     email = attributes[mappings["email"]][0]
     external_id = attributes[mappings["external_id"]][0]
+    if "default_role" in remote_app_config:
+        role = remote_app_config["default_role"]
+    else:
+        role = "nyuusers"
+    if "default affiliation" in remote_app_config:
+        affiliations = remote_app_config["default_affiliation"]
+    else:
+        affiliations = ""
     username = (
         remote_app + "-" + external_id.split("@")[0]
         if "@" in external_id
@@ -63,8 +73,8 @@ def account_info(attributes, remote_app):
     return dict(
         user=dict(
             email=email,
-            profile=dict(username=username, full_name=name + " " + surname),
-            roles=[remote_app_role]
+            profile=dict(username=username, full_name=name + " " + surname, affiliations=affiliations),
+            roles=[role],
         ),
         external_id=external_id,
         external_method=remote_app,
@@ -85,6 +95,11 @@ def default_account_setup(user, account_info):
             ),
         )
         current_datastore.add_role_to_user(user.email, account_info["user"]["roles"][0])
+        user.preferences = {"visibility": "public", "email_visibility": "public"}
+        current_communities.service.members.update(system_identity, "2f708f05-83c4-4186-a5a9-833ad5b31b3c",
+                                                   {"members":
+                                                        [{"type": "group", "id": account_info["user"]["roles"][0]}],
+                                                    "visible": False})
     except AlreadyLinkedError:
         pass
 
