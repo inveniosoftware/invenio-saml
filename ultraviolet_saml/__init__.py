@@ -5,7 +5,7 @@
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-"""Invenio module that provides SAML integration.
+"""Ultraviolet module that provides NYU SAML integration.
 
 This module is a thin layer on between Invenio and `Flask-SSO-SAML
 <https://flask-sso-saml.readthedocs.io/>`_, which provides you with a set of
@@ -73,6 +73,6 @@ from __future__ import absolute_import, print_function
 
 from .ext import UltravioletSAML
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 __all__ = ("__version__", "UltravioletSAML")

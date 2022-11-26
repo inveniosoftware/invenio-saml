@@ -8,6 +8,11 @@
 Changes
 =======
 
+(Ultraviolet-SAML) Version 1.0.1 (released 2022-11-26)
+
+- Updated to automatically set visibility to public and SAML mappings to reflect NYU SAML.
+
+
 (Ultraviolet-SAML) Version 1.0.0 (released 2022-11-04)
 
 - Automatically add role on user sign in using SAML.
