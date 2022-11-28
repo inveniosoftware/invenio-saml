@@ -55,9 +55,9 @@ def account_info(attributes, remote_app):
     surname = attributes[mappings["surname"]][0]
     email = attributes[mappings["email"]][0]
     external_id = attributes[mappings["external_id"]][0]
-    role = ""
+    role = None
     affiliations = ""
-    visibility = "restricted"
+    visibility = None
     community_auto_update = False
     if "default_role" in remote_app_config:
         role = remote_app_config["default_role"]
@@ -106,11 +106,11 @@ def default_account_setup(user, account_info):
     except AlreadyLinkedError:
         pass
     if "user" in account_info:
-        if "role" in account_info["user"]:
+        if "role" in account_info["user"] and account_info["user"]["role"]:
             current_datastore.add_role_to_user(
                 user.email, account_info["user"]["role"]
             )
-        if "visibility" in account_info["user"]:
+        if "visibility" in account_info["user"] and account_info["user"]["visibility"]:
             user.preferences = {
                 "visibility": account_info["user"]["visibility"],
                 "email_visibility": account_info["user"]["visibility"],
