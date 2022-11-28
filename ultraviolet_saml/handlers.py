@@ -78,9 +78,7 @@ def account_info(attributes, remote_app):
         user=dict(
             email=email,
             profile=dict(username=username, full_name=name + " " + surname, affiliations=affiliations),
-            role=role,
-            visibility=visibility,
-            community_auto_update=community_auto_update
+            roles=[role]
         ),
         external_id=external_id,
         external_method=remote_app,
@@ -104,7 +102,7 @@ def default_account_setup(user, account_info):
         pass
     if "user" in account_info:
         if "roles" in account_info["user"]:
-            current_datastore.add_role_to_user(user.email, account_info["user"]["role"])
+            current_datastore.add_role_to_user(user.email, account_info["user"]["roles"][0])
         if "visibility" in account_info["user"]:
             user.preferences = {"visibility": account_info["user"]["visibility"],
                                 "email_visibility": account_info["user"]["visibility"]}
