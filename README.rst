@@ -4,9 +4,9 @@
     Invenio-SAML is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
 
-==============
+================
 Ultraviolet-SAML
-==============
+================
 
 .. image:: https://github.com/inveniosoftware/invenio-saml/workflows/CI/badge.svg
         :target: https://github.com/inveniosoftware/invenio-saml/actions?query=workflow%3ACI
