@@ -79,7 +79,7 @@ def account_info(attributes, remote_app):
             profile=dict(
                 username=username,
                 full_name=name + " " + surname,
-                affiliations=affiliations
+                affiliations=affiliations,
             ),
             role=role,
             visibility=visibility,
@@ -113,13 +113,15 @@ def default_account_setup(user, account_info):
         if "visibility" in account_info["user"]:
             user.preferences = {
                 "visibility": account_info["user"]["visibility"],
-                "email_visibility": account_info["user"]["visibility"]
+                "email_visibility": account_info["user"]["visibility"],
             }
         if (
             "community_auto_update" in account_info["user"]
             and account_info["user"]["community_auto_update"]
         ):
-            current_communities = LocalProxy(lambda: current_app.extensions["invenio-communities"])
+            current_communities = LocalProxy(
+                lambda: current_app.extensions["invenio-communities"]
+            )
             current_communities.service.members.update(
                 system_identity,
                 "2f708f05-83c4-4186-a5a9-833ad5b31b3c",
