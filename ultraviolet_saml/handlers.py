@@ -107,9 +107,7 @@ def default_account_setup(user, account_info):
         pass
     if "user" in account_info:
         if "role" in account_info["user"] and account_info["user"]["role"]:
-            current_datastore.add_role_to_user(
-                user.email, account_info["user"]["role"]
-            )
+            current_datastore.add_role_to_user(user.email, account_info["user"]["role"])
         if "visibility" in account_info["user"] and account_info["user"]["visibility"]:
             user.preferences = {
                 "visibility": account_info["user"]["visibility"],
@@ -126,9 +124,7 @@ def default_account_setup(user, account_info):
                 system_identity,
                 "1357ffad-158b-421a-84d9-dd641feb91c4",
                 {
-                    "members": [
-                        {"type": "group", "id": account_info["user"]["role"]}
-                    ],
+                    "members": [{"type": "group", "id": account_info["user"]["role"]}],
                     "visible": False,
                 },
             )
