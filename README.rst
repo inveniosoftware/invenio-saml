@@ -20,9 +20,8 @@ Prerequisites
 #############
 
 SAML Integration requires the installation of the :code:`ultraviolet-saml` package, which in turn requires :code:`libxml2-dev` and :code:`libxmlsec1-dev` to be installed on your system.
-Currently, the automatic-role-assignment branch needs to be used to obtain the required behaviour.
+Currently, the automatic-role-assignment branch needs to be used to obtain the required behaviour. Use the following commands to install::
 
-.. code-block::
     cd ultraviolet
     pipenv run pip install git+https://github.com/nyudlts/ultraviolet-saml.git@automatic-role-assignment
 
@@ -48,8 +47,8 @@ IdP Setup
 #########
 For testing, we have used the Docker Test SAML 2.0 Identity Provider(Learn more about this `here <https://hub.docker.com/r/kristophjunge/test-saml-idp/>`_), which is built using SimpleSAMLphp.
 We are also using a custom :code:`authsources.php` which helps us configure the SAML IdP to reflect NYU's IdP, this is currently placed under :code:`app_data` of the v10-SAML branch of ultraviolet, which you can get `here <https://github.com/nyudlts/ultraviolet/blob/v10-SAML/app_data/authsources.php>`_.
+Run the following command to instantiate the docker container::
 
-.. code-block::
     docker run --name=nyu_mock_idp \
     -p 8080:8080 \
     -p 8443:8443 \
@@ -62,10 +61,8 @@ We are also using a custom :code:`authsources.php` which helps us configure the 
 Configuration
 #############
 
-In your :code:`invenio.cfg`, add the following:
+In your :code:`invenio.cfg`, add the following::
 
-.. code-block:: python
-   :linenos:
     # Invenio-SAML Configuration
     # ==========================
     # See https://inveniordm.docs.cern.ch/customize/authentication/#saml-integration
@@ -219,25 +216,22 @@ In your :code:`invenio.cfg`, add the following:
 Show the Login Button
 #####################
 
-Next, enable the login template, provided by the SAML module, to display the new button :code:`Login with NYU Mock SAML`. In your :code:`invenio.cfg`:
+Next, enable the login template, provided by the SAML module, to display the new button :code:`Login with NYU Mock SAML`. In your :code:`invenio.cfg`::
 
-.. code-block:: python
     OAUTHCLIENT_LOGIN_USER_TEMPLATE = "ultraviolet_saml/login_user.html"
 
 Setup the Logout
 ################
 
-The last step is to enable the logout redirects. In your :code:`invenio.cfg`:
+The last step is to enable the logout redirects. In your :code:`invenio.cfg`::
 
-.. code-block:: python
     SECURITY_POST_LOGOUT_VIEW = "https://127.0.0.1:5000/saml/slo/nyu_mock"
 
 Create Role
 ###########
 
-For SAML to work properly, the nyuusers role needs to be created and available. This step needs to be performed once. In your ultraviolet folder,
+For SAML to work properly, the nyuusers role needs to be created and available. This step needs to be performed once. In your ultraviolet folder::
 
-.. code-block::
     cd ultraviolet
     pipenv run invenio roles create nyuusers -d "Group of all users logged in from NYU's Shibboleth SAML system"
 
