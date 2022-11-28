@@ -54,10 +54,10 @@ def test_default_sls_handler(appctx, users):
 def test_acs_handler_factory(appctx, db):
     """Test ACS handler factory."""
     attrs = dict(
-        eduPersonPrincipleName=["federico@example.com"],
-        givenName=["federico"],
+        email=["federico@example.com"],
+        name=["federico"],
         surname=["Fernandez"],
-        uid=["12345679abcdf"],
+        external_id=["12345679abcdf"],
     )
 
     acs_handler = acs_handler_factory("test")
@@ -79,19 +79,19 @@ def test_acs_handler_factory_config(appctx, db):
     appctx.config["SSO_SAML_IDPS"] = {
         "test": {
             "mappings": {
-                "email": "eduPersonPrincipleName",
-                "name": "givenName",
+                "email": "email",
+                "name": "name",
                 "surname": "surname",
-                "external_id": "uid",
+                "external_id": "external_id",
             },
             "auto_confirm": True,
         }
     }
     attrs = dict(
-        eduPersonPrincipleName=["federico@example.com"],
-        givenName=["federico"],
+        email=["federico@example.com"],
+        name=["federico"],
         surname=["Fernandez"],
-        uid=["12345679abcdf"],
+        external_id=["12345679abcdf"],
     )
 
     acs_handler = acs_handler_factory("test")
@@ -109,10 +109,10 @@ def test_acs_handler_factory_config(appctx, db):
 def test_acs_handler_authetication_error(appctx, db):
     """Test ACS handler factory authentication errors."""
     attrs = dict(
-        eduPersonPrincipleName=["federico@example.com"],
-        givenName=["federico"],
+        email=["federico@example.com"],
+        name=["federico"],
         surname=["Fernandez"],
-        uid=["12345679abcdf"],
+        external_id=["12345679abcdf"],
     )
 
     acs_handler = acs_handler_factory("test")
@@ -131,10 +131,10 @@ def test_acs_handler_authetication_error(appctx, db):
 def test_acs_handler_user_creation_error(appctx, db):
     """Test ACS handler factory user creation errors."""
     attrs = dict(
-        eduPersonPrincipleName=["federico@example.com"],
-        givenName=["federico"],
+        email=["federico@example.com"],
+        name=["federico"],
         surname=["Fernandez"],
-        uid=["12345679abcdf"],
+        external_id=["12345679abcdf"],
     )
 
     acs_handler = acs_handler_factory("test")

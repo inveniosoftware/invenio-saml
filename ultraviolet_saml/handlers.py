@@ -46,10 +46,10 @@ def account_info(attributes, remote_app):
         mappings = remote_app_config["mappings"]
     else:
         mappings = {
-            "email": "eduPersonPrincipleName",
-            "name": "givenName",
+            "email": "email",
+            "name": "name",
             "surname": "surname",
-            "external_id": "uid",
+            "external_id": "external_id",
         }
 
     name = attributes[mappings["name"]][0]
@@ -78,7 +78,9 @@ def account_info(attributes, remote_app):
         user=dict(
             email=email,
             profile=dict(username=username, full_name=name + " " + surname, affiliations=affiliations),
-            roles=[role]
+            role=role,
+            visibility=visibility,
+            community_auto_update=community_auto_update
         ),
         external_id=external_id,
         external_method=remote_app,
