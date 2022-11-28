@@ -21,6 +21,7 @@ from ultraviolet_saml.handlers import (
     default_sls_handler,
 )
 
+
 def test_default_account_setup(users):
     """Test default user account setup."""
     user = User.query.filter_by(email="federico@example.com").one()

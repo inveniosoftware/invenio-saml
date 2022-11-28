@@ -15,7 +15,7 @@ from . import config
 
 
 class UltravioletSAML(object):
-    """Invenio-SAML extension. Updated for Ultraviolet"""
+    """Invenio-SAML extension. Updated for Ultraviolet."""
 
     def __init__(self, app=None):
         """Extension initialization."""

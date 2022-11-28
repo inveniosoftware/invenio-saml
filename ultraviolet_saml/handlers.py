@@ -12,10 +12,13 @@ from datetime import datetime
 from flask import abort, current_app
 from flask_login import current_user
 from flask_security import logout_user
+from invenio_access.permissions import system_identity
+from invenio_accounts.proxies import current_datastore
 from invenio_db import db
 from invenio_oauthclient.errors import AlreadyLinkedError
 from invenio_oauthclient.utils import create_csrf_disabled_registrationform, fill_form
-from invenio_accounts.proxies import current_datastore
+from werkzeug.local import LocalProxy
+
 from .ultraviolet_accounts.utils import (
     account_authenticate,
     account_get_user,
@@ -23,10 +26,6 @@ from .ultraviolet_accounts.utils import (
     account_register,
 )
 from .ultraviolet_app import get_safe_redirect_target
-
-from invenio_access.permissions import system_identity
-from werkzeug.local import LocalProxy
-current_communities = LocalProxy(lambda: current_app.extensions["invenio-communities"])
 
 
 def account_info(attributes, remote_app):
@@ -77,10 +76,14 @@ def account_info(attributes, remote_app):
     return dict(
         user=dict(
             email=email,
-            profile=dict(username=username, full_name=name + " " + surname, affiliations=affiliations),
+            profile=dict(
+                username=username,
+                full_name=name + " " + surname,
+                affiliations=affiliations
+            ),
             role=role,
             visibility=visibility,
-            community_auto_update=community_auto_update
+            community_auto_update=community_auto_update,
         ),
         external_id=external_id,
         external_method=remote_app,
@@ -104,15 +107,29 @@ def default_account_setup(user, account_info):
         pass
     if "user" in account_info:
         if "roles" in account_info["user"]:
-            current_datastore.add_role_to_user(user.email, account_info["user"]["roles"][0])
+            current_datastore.add_role_to_user(
+                user.email, account_info["user"]["roles"][0]
+            )
         if "visibility" in account_info["user"]:
-            user.preferences = {"visibility": account_info["user"]["visibility"],
-                                "email_visibility": account_info["user"]["visibility"]}
-        if "community_auto_update" in account_info["user"] and account_info["user"]["community_auto_update"]:
-            current_communities.service.members.update(system_identity, "2f708f05-83c4-4186-a5a9-833ad5b31b3c",
-                                                       {"members": [{"type": "group",
-                                                                     "id": account_info["user"]["roles"][0]}],
-                                                        "visible": False})
+            user.preferences = {
+                "visibility": account_info["user"]["visibility"],
+                "email_visibility": account_info["user"]["visibility"]
+            }
+        if (
+            "community_auto_update" in account_info["user"]
+            and account_info["user"]["community_auto_update"]
+        ):
+            current_communities = LocalProxy(lambda: current_app.extensions["invenio-communities"])
+            current_communities.service.members.update(
+                system_identity,
+                "2f708f05-83c4-4186-a5a9-833ad5b31b3c",
+                {
+                    "members": [
+                        {"type": "group", "id": account_info["user"]["roles"][0]}
+                    ],
+                    "visible": False,
+                },
+            )
 
 
 def default_sls_handler(auth, next_url):
