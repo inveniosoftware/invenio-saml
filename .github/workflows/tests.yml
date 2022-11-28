@@ -32,6 +32,7 @@ jobs:
           python-version: [3.7, 3.8, 3.9]
           requirements-level: [pypi]
           cache-service: [redis]
+          search-service: [elasticsearch7]
           db-service: [postgresql10, postgresql13, mysql8]
 
           include:
@@ -41,10 +42,13 @@ jobs:
             DB_EXTRAS: "postgresql"
           - db-service: mysql8
             DB_EXTRAS: "mysql"
+          - search-service: elasticsearch7
+            SEARCH_EXTRAS: "elasticsearch7"
 
     env:
       CACHE: ${{ matrix.cache-service }}
       DB: ${{ matrix.db-service }}
+      SEARCH: ${{ matrix.search-service }}
       EXTRAS: tests
     steps:
       - name: Checkout
