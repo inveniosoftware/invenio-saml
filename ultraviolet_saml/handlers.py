@@ -106,9 +106,9 @@ def default_account_setup(user, account_info):
     except AlreadyLinkedError:
         pass
     if "user" in account_info:
-        if "roles" in account_info["user"]:
+        if "role" in account_info["user"]:
             current_datastore.add_role_to_user(
-                user.email, account_info["user"]["roles"][0]
+                user.email, account_info["user"]["role"]
             )
         if "visibility" in account_info["user"]:
             user.preferences = {
