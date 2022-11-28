@@ -56,14 +56,18 @@ def account_info(attributes, remote_app):
     surname = attributes[mappings["surname"]][0]
     email = attributes[mappings["email"]][0]
     external_id = attributes[mappings["external_id"]][0]
+    role = ""
+    affiliations = ""
+    visibility = "restricted"
+    community_auto_update = False
     if "default_role" in remote_app_config:
         role = remote_app_config["default_role"]
-    else:
-        role = "nyuusers"
     if "default affiliation" in remote_app_config:
         affiliations = remote_app_config["default_affiliation"]
-    else:
-        affiliations = ""
+    if "default_visibility" in remote_app_config:
+        visibility = remote_app_config["visibility"]
+    if "auto_update_communities" in remote_app_config:
+        community_auto_update = True
     username = (
         remote_app + "-" + external_id.split("@")[0]
         if "@" in external_id
@@ -74,7 +78,9 @@ def account_info(attributes, remote_app):
         user=dict(
             email=email,
             profile=dict(username=username, full_name=name + " " + surname, affiliations=affiliations),
-            roles=[role],
+            role=role,
+            visibility=visibility,
+            community_auto_update=community_auto_update
         ),
         external_id=external_id,
         external_method=remote_app,
@@ -94,14 +100,19 @@ def default_account_setup(user, account_info):
                 id=account_info["external_id"], method=account_info["external_method"]
             ),
         )
-        current_datastore.add_role_to_user(user.email, account_info["user"]["roles"][0])
-        user.preferences = {"visibility": "public", "email_visibility": "public"}
-        current_communities.service.members.update(system_identity, "2f708f05-83c4-4186-a5a9-833ad5b31b3c",
-                                                   {"members":
-                                                        [{"type": "group", "id": account_info["user"]["roles"][0]}],
-                                                    "visible": False})
     except AlreadyLinkedError:
         pass
+    if "user" in account_info:
+        if "roles" in account_info["user"]:
+            current_datastore.add_role_to_user(user.email, account_info["user"]["role"])
+        if "visibility" in account_info["user"]:
+            user.preferences = {"visibility": account_info["user"]["visibility"],
+                                "email_visibility": account_info["user"]["visibility"]}
+        if "community_auto_update" in account_info["user"] and account_info["user"]["community_auto_update"]:
+            current_communities.service.members.update(system_identity, "2f708f05-83c4-4186-a5a9-833ad5b31b3c",
+                                                       {"members": [{"type": "group",
+                                                                     "id": account_info["user"]["roles"][0]}],
+                                                        "visible": False})
 
 
 def default_sls_handler(auth, next_url):
