@@ -58,15 +58,15 @@ def account_info(attributes, remote_app):
     role = None
     affiliations = ""
     visibility = None
-    community_auto_update = False
+    auto_update_communities = []
     if "default_role" in remote_app_config:
         role = remote_app_config["default_role"]
     if "default affiliation" in remote_app_config:
         affiliations = remote_app_config["default_affiliation"]
     if "default_visibility" in remote_app_config:
         visibility = remote_app_config["default_visibility"]
-    if "auto_update_communities" in remote_app_config:
-        community_auto_update = remote_app_config["auto_update_communities"]
+    if "auto_update_communities" in remote_app_config and type(remote_app_config["auto_update_communities"]) == list:
+        auto_update_communities = remote_app_config["auto_update_communities"]
     username = (
         remote_app + "-" + external_id.split("@")[0]
         if "@" in external_id
@@ -83,7 +83,7 @@ def account_info(attributes, remote_app):
             ),
             role=role,
             visibility=visibility,
-            community_auto_update=community_auto_update,
+            auto_update_communities=auto_update_communities,
         ),
         external_id=external_id,
         external_method=remote_app,
@@ -114,20 +114,21 @@ def default_account_setup(user, account_info):
                 "email_visibility": account_info["user"]["visibility"],
             }
         if (
-            "community_auto_update" in account_info["user"]
-            and account_info["user"]["community_auto_update"]
+            "auto_update_communities" in account_info["user"]
+            and account_info["user"]["auto_update_communities"]
         ):
             current_communities = LocalProxy(
                 lambda: current_app.extensions["invenio-communities"]
             )
-            current_communities.service.members.update(
-                system_identity,
-                "1357ffad-158b-421a-84d9-dd641feb91c4",
-                {
-                    "members": [{"type": "group", "id": account_info["user"]["role"]}],
-                    "visible": False,
-                },
-            )
+            for id in account_info["user"]["auto_update_communities"]:
+                current_communities.service.members.update(
+                    system_identity,
+                    id,
+                    {
+                        "members": [{"type": "group", "id": account_info["user"]["role"]}],
+                        "visible": False,
+                    },
+                )
 
 
 def default_sls_handler(auth, next_url):
