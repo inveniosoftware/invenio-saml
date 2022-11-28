@@ -64,9 +64,9 @@ def account_info(attributes, remote_app):
     if "default affiliation" in remote_app_config:
         affiliations = remote_app_config["default_affiliation"]
     if "default_visibility" in remote_app_config:
-        visibility = remote_app_config["visibility"]
+        visibility = remote_app_config["default_visibility"]
     if "auto_update_communities" in remote_app_config:
-        community_auto_update = True
+        community_auto_update = remote_app_config["auto_update_communities"]
     username = (
         remote_app + "-" + external_id.split("@")[0]
         if "@" in external_id
@@ -124,10 +124,10 @@ def default_account_setup(user, account_info):
             )
             current_communities.service.members.update(
                 system_identity,
-                "2f708f05-83c4-4186-a5a9-833ad5b31b3c",
+                "1357ffad-158b-421a-84d9-dd641feb91c4",
                 {
                     "members": [
-                        {"type": "group", "id": account_info["user"]["roles"][0]}
+                        {"type": "group", "id": account_info["user"]["role"]}
                     ],
                     "visible": False,
                 },
