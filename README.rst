@@ -45,8 +45,8 @@ List of information required to configure the InvenioRDM instance.
 
 IdP Setup
 #########
-For testing, we have used the Docker Test SAML 2.0 Identity Provider(Learn more about this `here <https://hub.docker.com/r/kristophjunge/test-saml-idp/>`_), which is built using SimpleSAMLphp.
-We are also using a custom :code:`authsources.php` which helps us configure the SAML IdP to reflect NYU's IdP, this is currently placed under :code:`app_data` of the v10-SAML branch of ultraviolet, which you can get `here <https://github.com/nyudlts/ultraviolet/blob/v10-SAML/app_data/authsources.php>`_.
+For testing, we have used the Docker Test SAML 2.0 Identity Provider(Learn more about this `here <https://hub.docker.com/r/kristophjunge/test-saml-idp/>`__), which is built using SimpleSAMLphp.
+We are also using a custom :code:`authsources.php` which helps us configure the SAML IdP to reflect NYU's IdP, this is currently placed under :code:`app_data` of the v10-SAML branch of ultraviolet, which you can get `here <https://github.com/nyudlts/ultraviolet/blob/v10-SAML/app_data/authsources.php>`__.
 Run the following command to instantiate the docker container::
 
     docker run --name=nyu_mock_idp \
