@@ -61,7 +61,11 @@ Run the following command to instantiate the docker container::
 Configuration
 #############
 
-In your :code:`invenio.cfg`, add the following::
+Add this to your imports in :code:`invenio.cfg`::
+
+    from ultraviolet_saml.handlers import acs_handler_factory
+
+In your :code:`invenio.cfg`, add the following before the :code:`Invenio-Theme` configuration::
 
     # Invenio-SAML Configuration
     # ==========================
