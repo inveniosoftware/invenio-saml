@@ -7,7 +7,9 @@
 
 """Blueprint definitions."""
 
-from flask import Blueprint
+from flask import Blueprint, redirect, url_for, current_app
+from flask_login import login_required
+from flask_security import logout_user
 
 blueprint = Blueprint(
     "ultraviolet_saml",
@@ -22,3 +24,10 @@ The sole purpose of this blueprint is to ensure that Invenio can find the
 templates and static files located in the folders of the same names next to
 this file.
 """
+
+
+@blueprint.route("/saml/logout")
+@login_required
+def logout_saml():
+    logout_user()
+    return redirect(url_for("sso_saml.slo", idp="nyu_mock"))
