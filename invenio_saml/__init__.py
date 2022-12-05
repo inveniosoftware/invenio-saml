@@ -68,8 +68,8 @@ more information about it on the API documentation.
 
 from __future__ import absolute_import, print_function
 
-from .ext import InvenioSSOSAML
+from .ext import InvenioSAML
 
-__version__ = "1.0.0 a2"
+__version__ = "1.0.0a3"
 
-__all__ = ("__version__", "InvenioSSOSAML")
+__all__ = ("__version__", "InvenioSAML")
