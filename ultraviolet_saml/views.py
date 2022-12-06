@@ -26,8 +26,9 @@ this file.
 """
 
 
-@blueprint.route("/saml/logout")
+@blueprint.route("/saml/logout/")
+@blueprint.route("/saml/logout/<idp>")
 @login_required
-def logout_saml():
+def logout_saml(idp):
     logout_user()
-    return redirect(url_for("sso_saml.slo", idp="nyu_mock"))
+    return redirect(url_for("sso_saml.slo", idp=idp))

@@ -14,6 +14,7 @@ from flask_login import current_user
 from flask_security import logout_user
 from invenio_access.permissions import system_identity
 from invenio_accounts.proxies import current_datastore
+from invenio_access.utils import get_identity
 from invenio_db import db
 from invenio_oauthclient.errors import AlreadyLinkedError
 from invenio_oauthclient.utils import create_csrf_disabled_registrationform, fill_form
@@ -56,13 +57,13 @@ def account_info(attributes, remote_app):
     email = attributes[mappings["email"]][0]
     external_id = attributes[mappings["external_id"]][0]
     role = None
-    affiliations = ""
+    affiliation = ""
     visibility = None
     auto_update_communities = []
-    if "default_role" in remote_app_config:
-        role = remote_app_config["default_role"]
-    if "default affiliation" in remote_app_config:
-        affiliations = remote_app_config["default_affiliation"]
+    if remote_app in current_app.config["SSO_SAML_ROLES"]:
+        role = current_app.config["SSO_SAML_ROLES"][remote_app]
+    if "default_affiliation" in remote_app_config:
+        affiliation = remote_app_config["default_affiliation"]
     if "default_visibility" in remote_app_config:
         visibility = remote_app_config["default_visibility"]
     if (
@@ -82,8 +83,8 @@ def account_info(attributes, remote_app):
             profile=dict(
                 username=username,
                 full_name=name + " " + surname,
-                affiliations=affiliations,
             ),
+            affiliation=affiliation,
             role=role,
             visibility=visibility,
             auto_update_communities=auto_update_communities,
@@ -106,35 +107,36 @@ def default_account_setup(user, account_info):
                 id=account_info["external_id"], method=account_info["external_method"]
             ),
         )
+        if "user" in account_info:
+            if "role" in account_info["user"] and account_info["user"]["role"]:
+                current_datastore.add_role_to_user(user.email, account_info["user"]["role"])
+            if "visibility" in account_info["user"] and account_info["user"]["visibility"]:
+                user.preferences = {
+                    "visibility": account_info["user"]["visibility"],
+                    "email_visibility": account_info["user"]["visibility"],
+                }
+            if "affiliation" in account_info["user"] and account_info["user"]["affiliation"]:
+                user.user_profile = {"affiliations": account_info["user"]["affiliation"]}
+            if (
+                    "auto_update_communities" in account_info["user"]
+                    and account_info["user"]["auto_update_communities"]
+            ):
+                current_communities = LocalProxy(
+                    lambda: current_app.extensions["invenio-communities"]
+                )
+                for id in account_info["user"]["auto_update_communities"]:
+                    current_communities.service.members.update(
+                        system_identity,
+                        id,
+                        {
+                            "members": [
+                                {"type": "group", "id": account_info["user"]["role"]}
+                            ],
+                            "visible": False,
+                        },
+                    )
     except AlreadyLinkedError:
         pass
-    if "user" in account_info:
-        if "role" in account_info["user"] and account_info["user"]["role"]:
-            current_datastore.add_role_to_user(user.email, account_info["user"]["role"])
-        if "visibility" in account_info["user"] and account_info["user"]["visibility"]:
-            user.preferences = {
-                "visibility": account_info["user"]["visibility"],
-                "email_visibility": account_info["user"]["visibility"],
-            }
-        if (
-            "auto_update_communities" in account_info["user"]
-            and account_info["user"]["auto_update_communities"]
-        ):
-            current_communities = LocalProxy(
-                lambda: current_app.extensions["invenio-communities"]
-            )
-            for id in account_info["user"]["auto_update_communities"]:
-                current_communities.service.members.update(
-                    system_identity,
-                    id,
-                    {
-                        "members": [
-                            {"type": "group", "id": account_info["user"]["role"]}
-                        ],
-                        "visible": False,
-                    },
-                )
-
 
 def default_sls_handler(auth, next_url):
     """Default SLS handler which simply logs out the user."""
