@@ -60,7 +60,7 @@ def account_info(attributes, remote_app):
     affiliation = ""
     visibility = None
     auto_update_communities = []
-    if remote_app in current_app.config["SSO_SAML_ROLES"]:
+    if "SSO_SAML_ROLES" in current_app and remote_app in current_app.config["SSO_SAML_ROLES"]:
         role = current_app.config["SSO_SAML_ROLES"][remote_app]
     if "default_affiliation" in remote_app_config:
         affiliation = remote_app_config["default_affiliation"]

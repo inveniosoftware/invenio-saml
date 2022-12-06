@@ -233,13 +233,6 @@ Next, enable the login template, provided by the SAML module, to display the new
 
     OAUTHCLIENT_LOGIN_USER_TEMPLATE = "ultraviolet_saml/login_user.html"
 
-Setup the Logout
-################
-
-The last step is to enable the logout redirects. In your :code:`invenio.cfg`::
-
-    SECURITY_POST_LOGOUT_VIEW = "https://127.0.0.1:5000/saml/slo/nyu_mock"
-
 Create Role
 ###########
 
