@@ -59,18 +59,24 @@ def account_info(attributes, remote_app):
     role = None
     affiliation = ""
     visibility = None
-    auto_update_communities = []
-    if "SSO_SAML_ROLES" in current_app and remote_app in current_app.config["SSO_SAML_ROLES"]:
+    communities_auto_update = []
+    if (
+        "SSO_SAML_ROLES" in current_app.config
+        and remote_app in current_app.config["SSO_SAML_ROLES"]
+    ):
         role = current_app.config["SSO_SAML_ROLES"][remote_app]
     if "default_affiliation" in remote_app_config:
         affiliation = remote_app_config["default_affiliation"]
     if "default_visibility" in remote_app_config:
         visibility = remote_app_config["default_visibility"]
     if (
-        "auto_update_communities" in remote_app_config
-        and type(remote_app_config["auto_update_communities"]) == list
+        "COMMUNITIES_AUTO_UPDATE" in current_app.config
+        and current_app.config["COMMUNITIES_AUTO_UPDATE"]
     ):
-        auto_update_communities = remote_app_config["auto_update_communities"]
+        communities_auto_update = current_app.config["COMMUNITIES_AUTO_UPDATE"]
+    current_app.logger.debug(
+        f"Auto update Communities: {current_app.config['COMMUNITIES_AUTO_UPDATE']}"
+    )
     username = (
         remote_app + "-" + external_id.split("@")[0]
         if "@" in external_id
@@ -87,7 +93,7 @@ def account_info(attributes, remote_app):
             affiliation=affiliation,
             role=role,
             visibility=visibility,
-            auto_update_communities=auto_update_communities,
+            communities_auto_update=communities_auto_update,
         ),
         external_id=external_id,
         external_method=remote_app,
@@ -109,22 +115,32 @@ def default_account_setup(user, account_info):
         )
         if "user" in account_info:
             if "role" in account_info["user"] and account_info["user"]["role"]:
-                current_datastore.add_role_to_user(user.email, account_info["user"]["role"])
-            if "visibility" in account_info["user"] and account_info["user"]["visibility"]:
+                current_datastore.add_role_to_user(
+                    user.email, account_info["user"]["role"]
+                )
+            if (
+                "visibility" in account_info["user"]
+                and account_info["user"]["visibility"]
+            ):
                 user.preferences = {
                     "visibility": account_info["user"]["visibility"],
                     "email_visibility": account_info["user"]["visibility"],
                 }
-            if "affiliation" in account_info["user"] and account_info["user"]["affiliation"]:
-                user.user_profile = {"affiliations": account_info["user"]["affiliation"]}
             if (
-                    "auto_update_communities" in account_info["user"]
-                    and account_info["user"]["auto_update_communities"]
+                "affiliation" in account_info["user"]
+                and account_info["user"]["affiliation"]
+            ):
+                user.user_profile = {
+                    "affiliations": account_info["user"]["affiliation"]
+                }
+            if (
+                "communities_auto_update" in account_info["user"]
+                and account_info["user"]["communities_auto_update"]
             ):
                 current_communities = LocalProxy(
                     lambda: current_app.extensions["invenio-communities"]
                 )
-                for id in account_info["user"]["auto_update_communities"]:
+                for id in account_info["user"]["communities_auto_update"]:
                     current_communities.service.members.update(
                         system_identity,
                         id,
@@ -137,6 +153,7 @@ def default_account_setup(user, account_info):
                     )
     except AlreadyLinkedError:
         pass
+
 
 def default_sls_handler(auth, next_url):
     """Default SLS handler which simply logs out the user."""
