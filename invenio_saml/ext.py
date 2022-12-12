@@ -15,9 +15,9 @@ from flask import url_for
 from onelogin.saml2.idp_metadata_parser import OneLogin_Saml2_IdPMetadataParser
 from werkzeug.utils import cached_property, import_string
 
-from invenio_saml import config
-from invenio_saml.utils import SAMLAuth, prepare_flask_request
-from invenio_saml.views import create_blueprint
+from . import config
+from .utils import SAMLAuth, prepare_flask_request
+from .views import create_blueprint
 
 
 def _default_config(idp):
@@ -210,23 +210,23 @@ class _InvenioSSOSAMLState(object):
         # Import handlers is present
         config["settings_handler"] = make_handler(
             config["settings_handler"],
-            self.app.config.get("SSO_SAML_DEFAUTL_SETTINGS_HANDLER"),
+            self.app.config.get("SSO_SAML_DEFAULT_SETTINGS_HANDLER"),
         )
         config["login_handler"] = make_handler(
             config["login_handler"],
-            self.app.config.get("SSO_SAML_DEFAUTL_LOGIN_HANDLER"),
+            self.app.config.get("SSO_SAML_DEFAULT_LOGIN_HANDLER"),
         )
         config["logout_handler"] = make_handler(
             config["logout_handler"],
-            self.app.config.get("SSO_SAML_DEFAUTL_LOGOUT_HANDLER"),
+            self.app.config.get("SSO_SAML_DEFAULT_LOGOUT_HANDLER"),
         )
         config["acs_handler"] = make_handler(
             config["acs_handler"],
-            self.app.config.get("SSO_SAML_DEFAUTL_ACS_HANDLER"),
+            self.app.config.get("SSO_SAML_DEFAULT_ACS_HANDLER"),
         )
         config["sls_handler"] = make_handler(
             config["sls_handler"],
-            self.app.config.get("SSO_SAML_DEFAUTL_SLS_HANDLER"),
+            self.app.config.get("SSO_SAML_DEFAULT_SLS_HANDLER"),
         )
 
         return config

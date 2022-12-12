@@ -61,7 +61,7 @@ def app_config(app_config):
     app_config["SECURITY_EMAIL_SENDER"] = "no-reply@localhost"
     app_config["WEBPACKEXT_MANIFEST_LOADER"] = MockManifestLoader
     app_config["SERVER_NAME"] = "localhost"
-    app_config["SSO_SAML_DEFAUTL_LOGIN_HANDLER"] = lambda auth, next_url: next_url
+    app_config["SSO_SAML_DEFAULT_LOGIN_HANDLER"] = lambda auth, next_url: next_url
     app_config["SSO_SAML_IDPS"] = {
         "test-idp": {
             "settings": {

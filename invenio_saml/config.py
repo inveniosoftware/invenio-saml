@@ -161,19 +161,19 @@ The structure of the dictionary is as follows:
 
 # Default handlers
 
-SSO_SAML_DEFAUTL_SETTINGS_HANDLER = None
+SSO_SAML_DEFAULT_SETTINGS_HANDLER = None
 """Default settings request handler."""
 
-SSO_SAML_DEFAUTL_LOGIN_HANDLER = None
+SSO_SAML_DEFAULT_LOGIN_HANDLER = None
 """Default login request handler."""
 
-SSO_SAML_DEFAUTL_ACS_HANDLER = None
+SSO_SAML_DEFAULT_ACS_HANDLER = None
 """Default ACS request handler."""
 
-SSO_SAML_DEFAUTL_LOGOUT_HANDLER = None
+SSO_SAML_DEFAULT_LOGOUT_HANDLER = None
 """Default logut request handler."""
 
-SSO_SAML_DEFAUTL_SLS_HANDLER = None
+SSO_SAML_DEFAULT_SLS_HANDLER = None
 """Default SLS request handler."""
 
 # Blueprint and routes default configuration
