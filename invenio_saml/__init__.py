@@ -1,30 +1,27 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2019 Esteban J. Garcia Gabancho.
+# Copyright (C) 2019, 2022 Esteban J. Garcia Gabancho.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Invenio module that provides SAML integration.
 
-This module is a thin layer on between Invenio and `Flask-SSO-SAML
-<https://flask-sso-saml.readthedocs.io/>`_, which provides you with a set of
-default handlers than can be used out of the box to authenticated users using
-SSO SAML.
+This module provides you with a set of default handlers than can be used out of
+the box to authenticated users using SSO SAML.
 
 Handlers
 --------
 
-Flass-SSO-SAML allows you to specify handlers for each SSO action, ``sso``,
+Invenio-SAML allows you to specify handlers for each SSO action, ``sso``,
 ``acs``, ``slo``, ``sls`` and ``metadata``.
 Typically the ones that matter the most are ``acs`` and ``sls``, because they
 are the ones that will authenticate and "unauthenticate" users from the
 application.
 
-Invenio-SAML provides default handlers for ``acs`` and``sls`` actions that will
+This module provides default handlers for ``acs`` and``sls`` actions that will
 be valid for most of the use cases.
-This is how you can use them (there is a more complete example on
-``examples/app.py``):
+This is how you can use them:
 
 .. code-block:: python
 
@@ -71,8 +68,8 @@ more information about it on the API documentation.
 
 from __future__ import absolute_import, print_function
 
-from .ext import InvenioSAML
+from .ext import InvenioSSOSAML
 
 __version__ = "1.0.0a3"
 
-__all__ = ("__version__", "InvenioSAML")
+__all__ = ("__version__", "InvenioSSOSAML")

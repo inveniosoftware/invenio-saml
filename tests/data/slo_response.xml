@@ -1,0 +1,6 @@
+<samlp:LogoutResponse xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="_151569708e74791f7511752b326b4b1fde30a6785c" Version="2.0" IssueInstant="2019-04-20T00:00:00Z" Destination="http://localhost/saml/sls/test-idp" InResponseTo="ONELOGIN_10ac4d3b88bfe56df083bc2d597aaeaafc6ca03e">
+    <saml:Issuer>https://test-idp.com</saml:Issuer>
+    <samlp:Status>
+        <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success" />
+    </samlp:Status>
+</samlp:LogoutResponse>
