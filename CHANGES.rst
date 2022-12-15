@@ -8,6 +8,12 @@
 Changes
 =======
 
+Version 1.0.0a4 (released 2022-12-15)
+
+- Migrate Flask-SSO-SAML code #31
+- Check before linking user #35
+- Add translations tests #36
+
 Version 1.0.0a2 (released 2022-09-12)
 
 - Add auto_confirm, confirm user email address
