@@ -10,7 +10,6 @@
 import pytest
 from flask_security import current_user, login_user
 from invenio_accounts.models import User
-from invenio_db import db
 from invenio_oauthclient.models import UserIdentity
 from mock import patch
 from werkzeug.exceptions import Unauthorized
@@ -25,7 +24,11 @@ from invenio_saml.handlers import (
 def test_default_account_setup(users):
     """Test default user account setup."""
     user = User.query.filter_by(email="federico@example.com").one()
-    account_info = dict(external_id=123456, external_method="external", other="foo")
+    account_info = dict(
+        external_id="123456",
+        external_method="external",
+        other="foo",
+    )
 
     default_account_setup(user, account_info)
 
