@@ -14,7 +14,6 @@ from flask_login import current_user
 from flask_security import logout_user
 from invenio_access.permissions import system_identity
 from invenio_accounts.proxies import current_datastore
-from invenio_access.utils import get_identity
 from invenio_db import db
 from invenio_oauthclient.errors import AlreadyLinkedError
 from invenio_oauthclient.utils import create_csrf_disabled_registrationform, fill_form
@@ -74,9 +73,6 @@ def account_info(attributes, remote_app):
         and current_app.config["COMMUNITIES_AUTO_UPDATE"]
     ):
         communities_auto_update = current_app.config["COMMUNITIES_AUTO_UPDATE"]
-    current_app.logger.debug(
-        f"Auto update Communities: {current_app.config['COMMUNITIES_AUTO_UPDATE']}"
-    )
     username = (
         remote_app + "-" + external_id.split("@")[0]
         if "@" in external_id

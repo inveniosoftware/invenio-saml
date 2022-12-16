@@ -7,7 +7,7 @@
 
 """Blueprint definitions."""
 
-from flask import Blueprint, redirect, url_for, current_app
+from flask import Blueprint, current_app, redirect, url_for
 from flask_login import login_required
 from flask_security import logout_user
 
@@ -30,5 +30,6 @@ this file.
 @blueprint.route("/saml/logout/<idp>")
 @login_required
 def logout_saml(idp):
+    """Function to handle logout only for SAML logged-in user."""
     logout_user()
     return redirect(url_for("sso_saml.slo", idp=idp))
