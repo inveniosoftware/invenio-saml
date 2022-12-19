@@ -10,7 +10,7 @@
 import pytest
 from flask import request
 
-from invenio_saml.invenio_app import get_safe_redirect_target
+from ultraviolet_saml.ultraviolet_app import get_safe_redirect_target
 
 
 @pytest.mark.parametrize(

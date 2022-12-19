@@ -8,4 +8,4 @@
 Usage
 =====
 
-.. automodule:: invenio_saml
+.. automodule:: ultraviolet_saml

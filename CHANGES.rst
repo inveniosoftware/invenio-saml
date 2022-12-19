@@ -8,19 +8,28 @@
 Changes
 =======
 
-Version 1.0.0a2 (released 2022-09-12)
+(Ultraviolet-SAML) Version 1.0.1 (released 2022-11-26)
+
+- Updated to automatically set visibility to public and SAML mappings to reflect NYU SAML.
+
+
+(Ultraviolet-SAML) Version 1.0.0 (released 2022-11-04)
+
+- Automatically add role on user sign in using SAML.
+
+(Invenio-SAML) Version 1.0.0a2 (released 2022-09-12)
 
 - Add auto_confirm, confirm user email address
 
-Version 1.0.0a1 (released 2021-07-15)
+(Invenio-SAML) Version 1.0.0a1 (released 2021-07-15)
 
 - Marking strings for translation
 - Adds german translation
 
-Version 1.0.0a0 (released 2021-05-27)
+(Invenio-SAML) Version 1.0.0a0 (released 2021-05-27)
 
 - Module refactoring.
 
-Version 0.1.0 (released TBD)
+(Invenio-SAML) Version 0.1.0 (released TBD)
 
 - Initial public release.

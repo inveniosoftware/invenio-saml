@@ -8,5 +8,5 @@
 Configuration
 =============
 
-.. automodule:: invenio_saml.config
+.. automodule:: ultraviolet_saml.config
    :members:

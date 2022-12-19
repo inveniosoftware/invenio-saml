@@ -2,15 +2,17 @@
 #
 # Copyright (C) 2021 Graz University of Technology.
 #
-# invenio-saml is free software; you can redistribute it and/or modify it
+# ultraviolet-saml is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Blueprint definitions."""
 
-from flask import Blueprint
+from flask import Blueprint, current_app, redirect, url_for
+from flask_login import login_required
+from flask_security import logout_user
 
 blueprint = Blueprint(
-    "invenio_saml",
+    "ultraviolet_saml",
     __name__,
     template_folder="templates",
     static_folder="static",
@@ -22,3 +24,12 @@ The sole purpose of this blueprint is to ensure that Invenio can find the
 templates and static files located in the folders of the same names next to
 this file.
 """
+
+
+@blueprint.route("/saml/logout/")
+@blueprint.route("/saml/logout/<idp>")
+@login_required
+def logout_saml(idp):
+    """Function to handle logout only for SAML logged-in user."""
+    logout_user()
+    return redirect(url_for("sso_saml.slo", idp=idp))

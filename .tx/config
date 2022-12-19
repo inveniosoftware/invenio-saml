@@ -25,8 +25,8 @@
 [main]
 host = https://www.transifex.com
 
-[invenio.invenio-saml-messages]
-file_filter = invenio_saml/translations/<lang>/LC_MESSAGES/messages.po
-source_file = invenio_saml/translations/messages.pot
+[ultraviolet.ultraviolet-saml-messages]
+file_filter = ultraviolet_saml/translations/<lang>/LC_MESSAGES/messages.po
+source_file = ultraviolet_saml/translations/messages.pot
 source_lang = en
 type = PO

@@ -11,12 +11,12 @@ from __future__ import absolute_import, print_function
 
 from flask import Flask
 
-from invenio_saml import InvenioSAML
+from ultraviolet_saml import UltravioletSAML
 
 
 def test_version():
     """Test version import."""
-    from invenio_saml import __version__
+    from ultraviolet_saml import __version__
 
     assert __version__
 
@@ -24,11 +24,11 @@ def test_version():
 def test_init():
     """Test extension initialization."""
     app = Flask("testapp")
-    ext = InvenioSAML(app)
-    assert "invenio-saml" in app.extensions
+    ext = UltravioletSAML(app)
+    assert "ultraviolet-saml" in app.extensions
 
     app = Flask("testapp")
-    ext = InvenioSAML()
-    assert "invenio-saml" not in app.extensions
+    ext = UltravioletSAML()
+    assert "ultraviolet-saml" not in app.extensions
     ext.init_app(app)
-    assert "invenio-saml" in app.extensions
+    assert "ultraviolet-saml" in app.extensions

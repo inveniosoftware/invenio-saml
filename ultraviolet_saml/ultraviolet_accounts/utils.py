@@ -16,7 +16,7 @@ from flask_security import login_user, logout_user
 from flask_security.confirmable import requires_confirmation
 from flask_security.registerable import register_user
 
-# FIXME: modify import when integrated inside invenio_accounts
+# FIXME: modify import when integrated inside ultraviolet_accounts
 # from .models import User
 from invenio_accounts.models import User
 from invenio_db import db
@@ -52,7 +52,7 @@ def account_get_user(account_info=None):
 
     :param account_info: The dictionary with the account info.
         (Default: ``None``)
-    :returns: A :class:`invenio_accounts.models.User` instance or ``None``.
+    :returns: A :class:`ultraviolet_accounts.models.User` instance or ``None``.
     """
     if account_info:
         external_id = _get_external_id(account_info)
@@ -83,7 +83,7 @@ def account_authenticate(user):
 def account_link_external_id(user, external_id=None):
     """Link a user to an external id.
 
-    :param user: A :class:`invenio_accounts.models.User` instance.
+    :param user: A :class:`ultraviolet_accounts.models.User` instance.
     :param external_id: The external id associated with the user.
         (Default: ``None``)
     :raises invenio_oauthclient.errors.AlreadyLinkedError: Raised if already
@@ -114,7 +114,7 @@ def account_register(form, confirmed_at=None):
     """Register user if possible.
 
     :param form: A form instance.
-    :returns: A :class:`invenio_accounts.models.User` instance.
+    :returns: A :class:`ultraviolet_accounts.models.User` instance.
     """
     if form.validate():
         data = {

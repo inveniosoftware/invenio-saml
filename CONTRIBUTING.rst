@@ -10,7 +10,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/egabancho/invenio-saml/issues.
+Report bugs at https://github.com/nyu-dlts/ultraviolet-saml/issues.
 
 If you are reporting a bug, please include:
 
@@ -41,7 +41,7 @@ Submit Feedback
 ~~~~~~~~~~~~~~~
 
 The best way to send feedback is to file an issue at
-https://github.com/egabancho/invenio-saml/issues.
+https://github.com/nyu-dlts/ultraviolet-saml/issues.
 
 If you are proposing a feature:
 

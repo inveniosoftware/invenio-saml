@@ -12,3 +12,4 @@ Invenio module that provides SAML integration.
 
 - Esteban J. Garcia Gabancho <egabancho@gmail.com>
 - Mojib Wali <mb_wali@hotmail.com>
+- Akshay Udaya Hegde <ah6138@nyu.edu>

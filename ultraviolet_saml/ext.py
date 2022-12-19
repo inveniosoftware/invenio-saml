@@ -14,8 +14,8 @@ from flask_sso_saml import FlaskSSOSAML
 from . import config
 
 
-class InvenioSAML(object):
-    """Invenio-SAML extension."""
+class UltravioletSAML(object):
+    """Invenio-SAML extension. Updated for Ultraviolet."""
 
     def __init__(self, app=None):
         """Extension initialization."""
@@ -26,4 +26,4 @@ class InvenioSAML(object):
         """Flask application initialization."""
         if "flask-sso-saml" not in app.extensions:
             FlaskSSOSAML(app)
-        app.extensions["invenio-saml"] = self
+        app.extensions["ultraviolet-saml"] = self

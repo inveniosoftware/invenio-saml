@@ -12,17 +12,20 @@ from datetime import datetime
 from flask import abort, current_app
 from flask_login import current_user
 from flask_security import logout_user
+from invenio_access.permissions import system_identity
+from invenio_accounts.proxies import current_datastore
 from invenio_db import db
 from invenio_oauthclient.errors import AlreadyLinkedError
 from invenio_oauthclient.utils import create_csrf_disabled_registrationform, fill_form
+from werkzeug.local import LocalProxy
 
-from .invenio_accounts.utils import (
+from .ultraviolet_accounts.utils import (
     account_authenticate,
     account_get_user,
     account_link_external_id,
     account_register,
 )
-from .invenio_app import get_safe_redirect_target
+from .ultraviolet_app import get_safe_redirect_target
 
 
 def account_info(attributes, remote_app):
@@ -52,6 +55,24 @@ def account_info(attributes, remote_app):
     surname = attributes[mappings["surname"]][0]
     email = attributes[mappings["email"]][0]
     external_id = attributes[mappings["external_id"]][0]
+    role = None
+    affiliation = ""
+    visibility = None
+    communities_auto_update = []
+    if (
+        "SSO_SAML_ROLES" in current_app.config
+        and remote_app in current_app.config["SSO_SAML_ROLES"]
+    ):
+        role = current_app.config["SSO_SAML_ROLES"][remote_app]
+    if "default_affiliation" in remote_app_config:
+        affiliation = remote_app_config["default_affiliation"]
+    if "default_visibility" in remote_app_config:
+        visibility = remote_app_config["default_visibility"]
+    if (
+        "COMMUNITIES_AUTO_UPDATE" in current_app.config
+        and current_app.config["COMMUNITIES_AUTO_UPDATE"]
+    ):
+        communities_auto_update = current_app.config["COMMUNITIES_AUTO_UPDATE"]
     username = (
         remote_app + "-" + external_id.split("@")[0]
         if "@" in external_id
@@ -61,7 +82,14 @@ def account_info(attributes, remote_app):
     return dict(
         user=dict(
             email=email,
-            profile=dict(username=username, full_name=name + " " + surname),
+            profile=dict(
+                username=username,
+                full_name=name + " " + surname,
+            ),
+            affiliation=affiliation,
+            role=role,
+            visibility=visibility,
+            communities_auto_update=communities_auto_update,
         ),
         external_id=external_id,
         external_method=remote_app,
@@ -81,6 +109,44 @@ def default_account_setup(user, account_info):
                 id=account_info["external_id"], method=account_info["external_method"]
             ),
         )
+        if "user" in account_info:
+            if "role" in account_info["user"] and account_info["user"]["role"]:
+                current_datastore.add_role_to_user(
+                    user.email, account_info["user"]["role"]
+                )
+            if (
+                "visibility" in account_info["user"]
+                and account_info["user"]["visibility"]
+            ):
+                user.preferences = {
+                    "visibility": account_info["user"]["visibility"],
+                    "email_visibility": account_info["user"]["visibility"],
+                }
+            if (
+                "affiliation" in account_info["user"]
+                and account_info["user"]["affiliation"]
+            ):
+                user.user_profile = {
+                    "affiliations": account_info["user"]["affiliation"]
+                }
+            if (
+                "communities_auto_update" in account_info["user"]
+                and account_info["user"]["communities_auto_update"]
+            ):
+                current_communities = LocalProxy(
+                    lambda: current_app.extensions["invenio-communities"]
+                )
+                for id in account_info["user"]["communities_auto_update"]:
+                    current_communities.service.members.update(
+                        system_identity,
+                        id,
+                        {
+                            "members": [
+                                {"type": "group", "id": account_info["user"]["role"]}
+                            ],
+                            "visible": False,
+                        },
+                    )
     except AlreadyLinkedError:
         pass
 
@@ -145,6 +211,7 @@ def acs_handler_factory(remote_app, account_setup=default_account_setup):
             current_app.logger.debug(
                 "Metadata received from IdP %s", auth.get_attributes()
             )
+
             _account_info = account_info(auth.get_attributes(), remote_app)
             current_app.logger.debug("Metadata extracted from IdP %s", _account_info)
             # TODO: signals?
@@ -157,7 +224,6 @@ def acs_handler_factory(remote_app, account_setup=default_account_setup):
                 user = account_register(
                     form, confirmed_at=_account_info["confirmed_at"]
                 )
-
             # if registration fails ... TODO: signup?
             if user is None or not account_authenticate(user):
                 abort(401)
