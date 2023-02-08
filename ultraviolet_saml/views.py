@@ -23,6 +23,7 @@ from flask import (
 )
 from flask_login import login_required
 from flask_security import logout_user
+
 from ultraviolet_saml.proxies import current_sso_saml
 
 blueprint = Blueprint(
