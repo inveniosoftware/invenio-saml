@@ -8,6 +8,10 @@
 Changes
 =======
 
+(Ultraviolet-SAML) Version 1.0.2 (2023-02-08)
+
+- Synced fork with upstream master
+
 (Ultraviolet-SAML) Version 1.0.1 (released 2022-11-26)
 
 - Updated to automatically set visibility to public and SAML mappings to reflect NYU SAML.
