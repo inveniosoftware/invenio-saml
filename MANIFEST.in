@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2019 Esteban J. Garcia Gabancho.
+# Copyright (C) 2019, 2022 Esteban J. Garcia Gabancho.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -23,6 +23,9 @@ recursive-include docs Makefile
 recursive-include ultraviolet_saml *.html
 recursive-include ultraviolet_saml/translations *.po *.pot *.mo
 recursive-include tests *.py
+recursive-include tests *.crt
+recursive-include tests *.key
+recursive-include tests *.xml
 recursive-include .github/workflows *.yml
 
 

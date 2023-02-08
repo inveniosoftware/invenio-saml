@@ -1,13 +1,13 @@
-# Translations template for invenio-saml.
+# Translations template for ultraviolet-saml.
 # Copyright (C) 2022 CERN
-# This file is distributed under the same license as the invenio-saml
+# This file is distributed under the same license as the ultraviolet-saml
 # project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: invenio-saml 1.0.0a2\n"
+"Project-Id-Version: ultraviolet-saml 1.0.0a2\n"
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2022-10-12 11:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"

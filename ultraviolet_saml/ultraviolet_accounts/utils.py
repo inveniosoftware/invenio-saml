@@ -2,9 +2,9 @@
 #
 # Copyright (C) 2019 Esteban J. Garcia Gabancho.
 # Copyright (C) 2019-2021 CERN.
-# Copyright (C) 2021 Graz University of Technology.
+# Copyright (C) 2021-2022 Graz University of Technology.
 #
-# Invenio-SAML is free software; you can redistribute it and/or modify it
+# ultraviolet-saml is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Temporary file for, IMHO, Invenio-Accounts code."""
@@ -12,17 +12,14 @@
 from __future__ import absolute_import, print_function
 
 from flask import after_this_request, current_app
-from flask_security import login_user, logout_user
+from flask_security import login_user
 from flask_security.confirmable import requires_confirmation
 from flask_security.registerable import register_user
 
 # FIXME: modify import when integrated inside ultraviolet_accounts
 # from .models import User
 from invenio_accounts.models import User
-from invenio_db import db
-from invenio_oauthclient.errors import AlreadyLinkedError
 from invenio_oauthclient.models import UserIdentity
-from sqlalchemy.exc import IntegrityError
 from werkzeug.local import LocalProxy
 
 _security = LocalProxy(lambda: current_app.extensions["security"])
@@ -57,11 +54,10 @@ def account_get_user(account_info=None):
     if account_info:
         external_id = _get_external_id(account_info)
         if external_id:
-            user_identity = UserIdentity.query.filter_by(
-                id=external_id["id"], method=external_id["method"]
-            ).first()
-            if user_identity:
-                return user_identity.user
+            user = UserIdentity.get_user(external_id["method"], external_id["id"])
+            if user:
+                return user
+
         email = account_info.get("user", {}).get("email")
         if email:
             return User.query.filter_by(email=email).one_or_none()
@@ -89,15 +85,12 @@ def account_link_external_id(user, external_id=None):
     :raises invenio_oauthclient.errors.AlreadyLinkedError: Raised if already
         exists a link.
     """
-    try:
-        with db.session.begin_nested():
-            db.session.add(
-                UserIdentity(
-                    id=external_id["id"], method=external_id["method"], id_user=user.id
-                )
-            )
-    except IntegrityError:
-        raise AlreadyLinkedError(user, external_id)
+    if UserIdentity.get_user(external_id["method"], external_id["id"]):
+        # already linked. should be fine to just return
+        # method and id form the composite primary key, so no other with these values can be linked
+        return
+
+    UserIdentity.create(user, external_id["method"], external_id["id"])
 
 
 def create_registrationform(*args, **kwargs):

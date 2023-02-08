@@ -17,19 +17,25 @@ Changes
 
 - Automatically add role on user sign in using SAML.
 
-(Invenio-SAML) Version 1.0.0a2 (released 2022-09-12)
+Version 1.0.0a4 (released 2022-12-15)
+
+- Migrate Flask-SSO-SAML code #31
+- Check before linking user #35
+- Add translations tests #36
+
+Version 1.0.0a2 (released 2022-09-12)
 
 - Add auto_confirm, confirm user email address
 
-(Invenio-SAML) Version 1.0.0a1 (released 2021-07-15)
+Version 1.0.0a1 (released 2021-07-15)
 
 - Marking strings for translation
 - Adds german translation
 
-(Invenio-SAML) Version 1.0.0a0 (released 2021-05-27)
+Version 1.0.0a0 (released 2021-05-27)
 
 - Module refactoring.
 
-(Invenio-SAML) Version 0.1.0 (released TBD)
+Version 0.1.0 (released TBD)
 
 - Initial public release.

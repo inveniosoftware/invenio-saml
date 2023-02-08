@@ -10,7 +10,6 @@
 import pytest
 from flask_security import current_user, login_user
 from invenio_accounts.models import User
-from invenio_db import db
 from invenio_oauthclient.models import UserIdentity
 from mock import patch
 from werkzeug.exceptions import Unauthorized
@@ -25,7 +24,11 @@ from ultraviolet_saml.handlers import (
 def test_default_account_setup(users):
     """Test default user account setup."""
     user = User.query.filter_by(email="federico@example.com").one()
-    account_info = dict(external_id=123456, external_method="external", other="foo")
+    account_info = dict(
+        external_id="123456",
+        external_method="external",
+        other="foo",
+    )
 
     default_account_setup(user, account_info)
 
@@ -64,7 +67,7 @@ def test_acs_handler_factory(appctx, db):
     acs_handler = acs_handler_factory("test")
 
     with appctx.test_request_context(), patch(
-        "flask_sso_saml.utils.SAMLAuth"
+        "invenio_saml.utils.SAMLAuth"
     ) as mock_saml_auth:
         mock_saml_auth.get_attributes.return_value = attrs
         next_url = acs_handler(mock_saml_auth, "/foo")
@@ -98,7 +101,7 @@ def test_acs_handler_factory_config(appctx, db):
     acs_handler = acs_handler_factory("test")
 
     with appctx.test_request_context(), patch(
-        "flask_sso_saml.utils.SAMLAuth"
+        "invenio_saml.utils.SAMLAuth"
     ) as mock_saml_auth:
         mock_saml_auth.get_attributes.return_value = attrs
         next_url = acs_handler(mock_saml_auth, "/foo")
@@ -119,7 +122,7 @@ def test_acs_handler_authetication_error(appctx, db):
     acs_handler = acs_handler_factory("test")
 
     with appctx.test_request_context(), patch(
-        "flask_sso_saml.utils.SAMLAuth"
+        "invenio_saml.utils.SAMLAuth"
     ) as mock_saml_auth, patch(
         "ultraviolet_saml.handlers.account_authenticate"
     ) as mock_authenticate:
@@ -141,7 +144,7 @@ def test_acs_handler_user_creation_error(appctx, db):
     acs_handler = acs_handler_factory("test")
 
     with appctx.test_request_context(), patch(
-        "flask_sso_saml.utils.SAMLAuth"
+        "invenio_saml.utils.SAMLAuth"
     ) as mock_saml_auth, patch(
         "ultraviolet_saml.handlers.account_register"
     ) as mock_register:
