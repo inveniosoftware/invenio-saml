@@ -12,7 +12,7 @@ SSO_SAML_SESSION_KEY_NAME_ID = "SSO::SAML::NameId"
 SSO_SAML_SESSION_KEY_SESSION_INDEX = "SSO::SAML::SessionIndex"
 """Key name to store the SSO Session Index in the session."""
 
-SSO_SAML_PREPARE_FLASK_REQUEST_FUNCTION = "invenio_saml.utils.prepare_flask_request"
+SSO_SAML_PREPARE_FLASK_REQUEST_FUNCTION = "ultraviolet_saml.utils.prepare_flask_request"
 """Default function to prepare the flask request to be sent to the IdP.
 If the server is behind proxys or balancers, this function might need to be
 updated to use the HTTP_X_FORWARDED fields.

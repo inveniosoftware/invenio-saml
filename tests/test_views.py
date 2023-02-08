@@ -23,7 +23,7 @@ def test_login_error(appctx, base_client):
     """Test login error."""
     client = base_client
     login_url = url_for("sso_saml.sso", idp="test-idp")
-    with patch("invenio_saml.utils.SAMLAuth.login") as mock_login:
+    with patch("ultraviolet_saml.utils.SAMLAuth.login") as mock_login:
         mock_login.return_value = None
         res = client.get(login_url)
         assert res.status_code == 401
@@ -59,7 +59,7 @@ def test_acs(appctx, base_client, sso_response):
     with patch(
         "onelogin.saml2.auth.OneLogin_Saml2_Response.is_valid"
     ) as mock_is_valid, patch(
-        "invenio_saml.utils.SAMLAuth.is_authenticated"
+        "ultraviolet_saml.utils.SAMLAuth.is_authenticated"
     ) as mock_is_authenticated:
         mock_is_valid.return_value = True
         mock_is_authenticated.return_value = False
@@ -88,7 +88,7 @@ def test_logout_error(appctx, base_client):
     """Test logout error."""
     client = base_client
     login_url = url_for("sso_saml.slo", idp="test-idp")
-    with patch("invenio_saml.utils.SAMLAuth.logout") as mock_logout:
+    with patch("ultraviolet_saml.utils.SAMLAuth.logout") as mock_logout:
         mock_logout.return_value = None
         res = client.get(login_url)
         assert res.status_code == 401
@@ -101,8 +101,8 @@ def test_sls(appctx, base_client, slo_query_string):
     res = client.get(sls_url, query_string=slo_query_string)
     assert res.status_code == 302
 
-    with patch("invenio_saml.utils.SAMLAuth.get_errors") as mock_get_erros, patch(
-        "invenio_saml.utils.SAMLAuth.get_last_error_reason"
+    with patch("ultraviolet_saml.utils.SAMLAuth.get_errors") as mock_get_erros, patch(
+        "ultraviolet_saml.utils.SAMLAuth.get_last_error_reason"
     ) as mock_get_reason:
         mock_get_erros.return_value = ["bad error"]
         mock_get_reason.return_value = "Test reason"
@@ -123,7 +123,7 @@ def test_metadata(appctx, base_client, metadata_response):
     with patch(
         "onelogin.saml2.settings.OneLogin_Saml2_Settings.validate_metadata"
     ) as mock_validate_metadata, patch(
-        "invenio_saml.utils.SAMLAuth.get_last_error_reason"
+        "ultraviolet_saml.utils.SAMLAuth.get_last_error_reason"
     ) as mock_get_reason:
         mock_validate_metadata.return_value = ["bad error", "worst error"]
         mock_get_reason.return_value = "Test reason"

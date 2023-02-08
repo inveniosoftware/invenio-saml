@@ -11,7 +11,7 @@ import pytest
 from flask import request
 from werkzeug.datastructures import MultiDict
 
-from invenio_saml.utils import prepare_flask_request
+from ultraviolet_saml.utils import prepare_flask_request
 
 
 @pytest.mark.parametrize(
