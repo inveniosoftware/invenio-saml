@@ -11,7 +11,7 @@ import json
 from collections.abc import Mapping
 from functools import wraps
 
-from flask import abort, url_for
+from flask import url_for
 from onelogin.saml2.idp_metadata_parser import OneLogin_Saml2_IdPMetadataParser
 from werkzeug.utils import cached_property, import_string
 
@@ -176,10 +176,7 @@ class _UltravioletSAMLState(object):
             )
 
         config = _default_config(idp)
-        try:
-            update(config, self.app.config["SSO_SAML_IDPS"][idp])
-        except KeyError:
-            return abort(404, "Identity Provider not found")
+        update(config, self.app.config["SSO_SAML_IDPS"][idp])
 
         # Read IdP config from file or URL if any
         if config["settings_url"]:
