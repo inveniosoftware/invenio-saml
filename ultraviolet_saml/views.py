@@ -89,6 +89,7 @@ def metadata(idp, auth):
 @verify_idp
 def sso(idp, auth):
     """Send user to IdP login page (SAML single sign-on)."""
+    current_app.logger.debug(idp)
     current_app.logger.debug("SSO SAML for {}".format(idp))
     next_url = request.args.get("next", request.referrer) or request.host_url
     login = auth.login(return_to=next_url)
