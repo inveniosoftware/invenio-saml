@@ -40,14 +40,14 @@ templates and static files located in the folders of the same names next to
 this file.
 """
 
-
-@blueprint.route("/saml/logout/")
-@blueprint.route("/saml/logout/<idp>")
-@login_required
-def logout_saml(idp):
-    """Function to handle logout only for SAML logged-in user."""
-    logout_user()
-    return redirect(url_for("sso_saml.slo", idp=idp))
+#
+# @blueprint.route("/saml/logout/")
+# @blueprint.route("/saml/logout/<idp>")
+# @login_required
+# def logout_saml(idp):
+#     """Function to handle logout only for SAML logged-in user."""
+#     logout_user()
+#     return redirect(url_for("sso_saml.slo", idp=idp))
 
 
 def verify_idp(f):
