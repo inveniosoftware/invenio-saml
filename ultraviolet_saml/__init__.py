@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2019 Esteban J. Garcia Gabancho.
 #
-# Invenio-SAML is free software; you can redistribute it and/or modify it
+# ultraviolet-saml is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Ultraviolet module that provides NYU SAML integration.
@@ -21,7 +21,7 @@ Typically the ones that matter the most are ``acs`` and ``sls``, because they
 are the ones that will authenticate and "unauthenticate" users from the
 application.
 
-Invenio-SAML provides default handlers for ``acs`` and``sls`` actions that will
+ultraviolet-saml provides default handlers for ``acs`` and``sls`` actions that will
 be valid for most of the use cases.
 This is how you can use them (there is a more complete example on
 ``examples/app.py``):
@@ -73,6 +73,6 @@ from __future__ import absolute_import, print_function
 
 from .ext import UltravioletSAML
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 __all__ = ("__version__", "UltravioletSAML")
