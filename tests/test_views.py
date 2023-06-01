@@ -8,6 +8,7 @@
 
 import pytest
 from flask import url_for
+from flask_security import url_for_security
 from mock import patch
 
 
@@ -130,3 +131,11 @@ def test_metadata(appctx, base_client, metadata_response):
         res = client.get(metadata_url)
         assert res.status_code == 401
         assert res.json == ["bad error", "worst error", "Test reason"]
+
+
+def test_login(appctx, base_client):
+    """Test the SAML login template at least loads."""
+    client = base_client
+    res = client.get(url_for_security("login"))
+    assert res.status_code == 200
+    assert "Sign in with SAML" in res.text
