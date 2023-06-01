@@ -85,6 +85,8 @@ def app_config(app_config):
         },
         "idp-url": {"settings_url": "https://test-idp.com/settings"},
     }
+    # Add template
+    app_config["OAUTHCLIENT_LOGIN_USER_TEMPLATE"] = "invenio_saml/login_user.html"
     return app_config
 
 

@@ -166,7 +166,12 @@ def sls(idp, auth):
 
 def create_blueprint(state, import_name):
     """Create the SSO SAML extension blueprint."""
-    bp = Blueprint("sso_saml", import_name, url_prefix=state.url_prefix)
+    bp = Blueprint(
+        "sso_saml",
+        import_name,
+        url_prefix=state.url_prefix,
+        template_folder="templates",
+    )
 
     bp.add_url_rule(state.metadata_url, endpoint="metadata", view_func=metadata)
 
