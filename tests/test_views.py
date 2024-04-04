@@ -133,7 +133,7 @@ def test_metadata(appctx, base_client, metadata_response):
         assert res.json == ["bad error", "worst error", "Test reason"]
 
 
-def test_login(appctx, base_client):
+def test_login_template(appctx, base_client):
     """Test the SAML login template at least loads."""
     client = base_client
     res = client.get(url_for_security("login"))

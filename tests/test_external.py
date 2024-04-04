@@ -8,7 +8,6 @@
 """Test code that will get externalized at some point."""
 
 import pytest
-from flask import request
 
 from invenio_saml.invenio_app import get_safe_redirect_target
 

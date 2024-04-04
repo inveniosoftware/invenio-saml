@@ -74,7 +74,7 @@ def test_acs_handler_factory(appctx, db):
 
         assert next_url == "/foo"
         assert current_user.is_authenticated
-        assert current_user.confirmed_at == None
+        assert current_user.confirmed_at is None
 
 
 def test_acs_handler_factory_config(appctx, db):
@@ -104,7 +104,7 @@ def test_acs_handler_factory_config(appctx, db):
         "invenio_saml.utils.SAMLAuth"
     ) as mock_saml_auth:
         mock_saml_auth.get_attributes.return_value = attrs
-        next_url = acs_handler(mock_saml_auth, "/foo")
+        acs_handler(mock_saml_auth, "/foo")
 
         assert current_user.is_authenticated
         assert current_user.confirmed_at
@@ -129,7 +129,7 @@ def test_acs_handler_authetication_error(appctx, db):
         mock_saml_auth.get_attributes.return_value = attrs
         mock_authenticate.return_value = False
         with pytest.raises(Unauthorized):
-            next_url = acs_handler(mock_saml_auth, "/foo")
+            acs_handler(mock_saml_auth, "/foo")
 
 
 def test_acs_handler_user_creation_error(appctx, db):
@@ -151,4 +151,4 @@ def test_acs_handler_user_creation_error(appctx, db):
         mock_saml_auth.get_attributes.return_value = attrs
         mock_register.return_value = None
         with pytest.raises(Unauthorized):
-            next_url = acs_handler(mock_saml_auth, "/foo")
+            acs_handler(mock_saml_auth, "/foo")

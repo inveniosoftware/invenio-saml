@@ -7,7 +7,7 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 """Default handlers for SSO-SAML."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from flask import abort, current_app
 from flask_login import current_user
@@ -66,9 +66,11 @@ def account_info(attributes, remote_app):
         external_id=external_id,
         external_method=remote_app,
         active=True,
-        confirmed_at=datetime.utcnow()
-        if remote_app_config.get("auto_confirm", False)
-        else None,
+        confirmed_at=(
+            datetime.now(timezone.utc)
+            if remote_app_config.get("auto_confirm", False)
+            else None
+        ),
     )
 
 

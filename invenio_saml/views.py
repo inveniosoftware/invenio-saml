@@ -108,9 +108,9 @@ def acs(idp, auth):
 
     # Set SSO specific IdP metadata in the session, (used later in slo)
     session[current_app.config["SSO_SAML_SESSION_KEY_NAME_ID"]] = auth.get_nameid()
-    session[
-        current_app.config["SSO_SAML_SESSION_KEY_SESSION_INDEX"]
-    ] = auth.get_session_index()
+    session[current_app.config["SSO_SAML_SESSION_KEY_SESSION_INDEX"]] = (
+        auth.get_session_index()
+    )
 
     next_url = auth.acs_handler(request.form.get("RelayState")) or "/"
 
