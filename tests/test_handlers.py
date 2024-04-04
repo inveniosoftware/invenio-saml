@@ -7,7 +7,10 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 """Test handlers."""
 
+from datetime import datetime, timezone
+
 import pytest
+from flask import current_app
 from flask_security import current_user, login_user
 from invenio_accounts.models import User
 from invenio_oauthclient.models import UserIdentity
@@ -152,3 +155,49 @@ def test_acs_handler_user_creation_error(appctx, db):
         mock_register.return_value = None
         with pytest.raises(Unauthorized):
             acs_handler(mock_saml_auth, "/foo")
+
+
+def test_custom_account_info(appctx, db):
+    """Test custom account info in ACS handler."""
+    appctx.config["SSO_SAML_IDPS"] = {
+        "test": {
+            "auto_confirm": True,
+        }
+    }
+
+    def account_info(attributes, remote_app):
+        remote_app_config = current_app.config["SSO_SAML_IDPS"].get(remote_app, {})
+        return dict(
+            user=dict(
+                email=attributes["email"],
+                profile=dict(
+                    username=attributes["name"],
+                    full_name=f"{attributes['name']} {attributes['surname']}",
+                ),
+            ),
+            external_id=f"{attributes['name']}.{attributes['surname']}",
+            external_method=remote_app,
+            active=True,
+            confirmed_at=(
+                datetime.now(timezone.utc)
+                if remote_app_config.get("auto_confirm", False)
+                else None
+            ),
+        )
+
+    attrs = dict(
+        email="federico@example.com",
+        name="federico",
+        surname="fernandez",
+    )
+
+    acs_handler = acs_handler_factory("test", account_info=account_info)
+
+    with appctx.test_request_context(), patch(
+        "invenio_saml.utils.SAMLAuth"
+    ) as mock_saml_auth:
+        mock_saml_auth.get_attributes.return_value = attrs
+        acs_handler(mock_saml_auth, "/")
+
+        assert current_user.is_authenticated
+        assert current_user.confirmed_at

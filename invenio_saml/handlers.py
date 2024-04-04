@@ -25,7 +25,7 @@ from .invenio_accounts.utils import (
 from .invenio_app import get_safe_redirect_target
 
 
-def account_info(attributes, remote_app):
+def default_account_info(attributes, remote_app):
     """Return account info for remote user.
 
     :param attributes: (dict) dictionary of data returned by identity provider.
@@ -97,7 +97,9 @@ def default_sls_handler(auth, next_url):
     return next_url
 
 
-def acs_handler_factory(remote_app, account_setup=default_account_setup):
+def acs_handler_factory(
+    remote_app, account_info=default_account_info, account_setup=default_account_setup
+):
     """Generate ACS handlers with an specific account info and setup functions.
 
     .. note::
@@ -106,6 +108,7 @@ def acs_handler_factory(remote_app, account_setup=default_account_setup):
         way the information is extracted and processed from the IdP will be
         different.
 
+    :param remote_app: string representing the name of the identity provider.
 
     :param account_info: callable to extract the account information from a
         dict like object. This function is expected to return a dictionary
