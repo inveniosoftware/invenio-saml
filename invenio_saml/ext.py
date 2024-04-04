@@ -16,6 +16,7 @@ from onelogin.saml2.idp_metadata_parser import OneLogin_Saml2_IdPMetadataParser
 from werkzeug.utils import cached_property, import_string
 
 from . import config
+from .errors import IdentityProviderNotFound
 from .utils import SAMLAuth, prepare_flask_request
 from .views import create_blueprint
 
@@ -90,7 +91,10 @@ def _cached_configuration(f):
     @wraps(f)
     def inner(self, idp, *args, **kwargs):
         if idp not in self._saml_config:
-            self._saml_config[idp] = self._build_configuration(idp)
+            try:
+                self._saml_config[idp] = self._build_configuration(idp)
+            except KeyError as exc:
+                raise IdentityProviderNotFound() from exc
         return f(self, idp, *args, **kwargs)
 
     return inner

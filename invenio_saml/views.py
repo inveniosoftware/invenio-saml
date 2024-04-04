@@ -21,6 +21,7 @@ from flask import (
     session,
 )
 
+from invenio_saml.errors import IdentityProviderNotFound
 from invenio_saml.proxies import current_sso_saml
 
 
@@ -31,7 +32,7 @@ def verify_idp(f):
     def inner(idp, *args, **kwargs):
         try:
             return f(idp=idp, auth=current_sso_saml.get_auth(idp), *args, **kwargs)
-        except KeyError:
+        except IdentityProviderNotFound:
             # IdP name not found inside the configuration
             return abort(404, "Identity Provider not found")
 

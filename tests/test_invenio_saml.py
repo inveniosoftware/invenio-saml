@@ -13,6 +13,7 @@ from flask import Flask
 from mock import patch
 
 from invenio_saml import InvenioSSOSAML
+from invenio_saml.errors import IdentityProviderNotFound
 from invenio_saml.proxies import current_sso_saml
 
 
@@ -67,7 +68,7 @@ def test_app_config(appctx):
 
 def test_auth(appctx, metadata_response):
     """Test Auth class."""
-    with appctx.test_request_context(), pytest.raises(KeyError):
+    with appctx.test_request_context(), pytest.raises(IdentityProviderNotFound):
         auth = current_sso_saml.get_auth("wrong-idp")
 
     with appctx.test_request_context():
