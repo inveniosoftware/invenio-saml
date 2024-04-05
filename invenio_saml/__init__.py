@@ -20,24 +20,13 @@ are the ones that will authenticate and "unauthenticate" users from the
 application.
 
 This module provides default handlers for ``acs`` and``sls`` actions that will
-be valid for most of the use cases.
+be valid for most of the use cases. The default ACS handler is created by a factory, 
+:func: `invenio_saml.handlers.acs_handler_function`.
 This is how you can use them:
 
 .. code-block:: python
 
-    from invenio_saml.handlers import acs_handler_factor, default_sls_handler
-
-    def account_info(info):
-        return dict(
-            user=dict(
-                email=info['User.email'][0],
-                profile=dict(
-                    username=info['User.FirstName'][0],
-                    full_name=info['User.FirstName'][0])),
-            external_id=info['User.email'][0],
-            external_method='onelogin',
-            active=True,
-            confirmed_at=None)
+    from invenio_saml.handlers import acs_handler_factor
 
     SSO_SAML_IDPS={
             '<idp-name>': {
@@ -53,17 +42,16 @@ This is how you can use them:
                         'x509cert': '<ipd-cert>',
                     },
                 },
-                'acs_handler': acs_handler_factory(account_info),
-                'sls_handler': default_sls_handler,
+                "mappings": { 
+                    "email": "User.email",
+                    "name": "User.FirstName",
+                    "surname": "User.LastName",
+                    "external_id": "User.email",
+                },
+                'acs_handler': acs_handler_factory('<idp-name>'),
                 'auto_confirm': False,
             }
-        },
-
-Apart from the handlers, there is one functions that needs to be specific for
-each of the Identity providers, in the example before ``account_info``. This
-function is responsible of extracting the user information from the SSO reponse
-and transforming it so the rest of the handler understand it. You can check
-more information about it on the API documentation.
+        }
 """
 
 from __future__ import absolute_import, print_function

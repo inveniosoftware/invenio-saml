@@ -103,8 +103,8 @@ def acs_handler_factory(
     :param remote_app: string representing the name of the identity provider.
 
     :param account_info: callable to extract the account information from a
-        dict like object. This function is expected to return a dictionary
-        similar to this:
+        dict like object. ``mappings`` key is required whe using it.
+        This function is expected to return a dictionary similar to this:
 
         .. code-block:: python
 

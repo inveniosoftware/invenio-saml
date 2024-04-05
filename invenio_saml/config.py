@@ -16,6 +16,7 @@ SSO_SAML_SESSION_KEY_SESSION_INDEX = "SSO::SAML::SessionIndex"
 
 SSO_SAML_PREPARE_FLASK_REQUEST_FUNCTION = "invenio_saml.utils.prepare_flask_request"
 """Default function to prepare the flask request to be sent to the IdP.
+
 If the server is behind proxys or balancers, this function might need to be
 updated to use the HTTP_X_FORWARDED fields.
 """
@@ -56,10 +57,8 @@ The structure of the dictionary is as follows:
                     },
                     'NameIDFormat':
                     'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
-                    'x509cert':
-                    '',
-                    'privateKey':
-                    ''
+                    'x509cert': '',
+                    'privateKey': ''
                 },
                 'idp': {
                     'entityId': '',  #TODO
@@ -103,13 +102,24 @@ The structure of the dictionary is as follows:
                     # TODO
                 },
             },
+            
             'settings_file_path': '/full/path/to/directory',
             'settings_url': 'https://...',
+
+            "mappings": {
+                "email": "TODO",
+                "name": "TODO",
+                "surname": "TODO",
+                "external_id": "TODO",
+            },
+
             'settings_handler': '...',
             'login_handler': '...',
-            'acs_handler': '...',
+            'acs_handler': acs_handler_factory('idp-name'),
             'logout_handler': '...',
             'sls_handler': '...',
+
+            'auto_confirm': True,
         }
     }
 
@@ -158,6 +168,11 @@ The structure of the dictionary is as follows:
     the user will be redirected to. It gets called after
     ``OneLogin_Saml2_Auth.process_slo``.
     Typically returns the next URL too, although it is not mandatory.
+:param mappings: Key value pairs linking content coming from the IdP (attribute 
+    response) and Invenio User properties. This key is mandatory when using the default
+    acs handler in conjuction with the default account info extraction.
+:param auto_confirm: Automatically set `confirmed_at` for users upon registration, 
+    when using the default ``acs_handler``.
 """
 
 
