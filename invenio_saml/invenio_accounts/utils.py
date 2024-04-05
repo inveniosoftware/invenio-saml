@@ -93,16 +93,6 @@ def account_link_external_id(user, external_id=None):
     UserIdentity.create(user, external_id["method"], external_id["id"])
 
 
-def create_registrationform(*args, **kwargs):
-    """Make a registration form."""
-
-    class RegistrationForm(_security.confirm_register_form):
-        password = None
-        recaptcha = None
-
-    return RegistrationForm(*args, **kwargs)
-
-
 def account_register(form, confirmed_at=None):
     """Register user if possible.
 
