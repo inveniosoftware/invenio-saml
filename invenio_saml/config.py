@@ -6,6 +6,8 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 """Flask extension that provides SSO SAML integration."""
 
+from invenio_saml.handlers import default_sls_handler
+
 SSO_SAML_SESSION_KEY_NAME_ID = "SSO::SAML::NameId"
 """Key name to store the SSO Name ID in the session."""
 
@@ -171,9 +173,9 @@ SSO_SAML_DEFAULT_ACS_HANDLER = None
 """Default ACS request handler."""
 
 SSO_SAML_DEFAULT_LOGOUT_HANDLER = None
-"""Default logut request handler."""
+"""Default logout request handler."""
 
-SSO_SAML_DEFAULT_SLS_HANDLER = None
+SSO_SAML_DEFAULT_SLS_HANDLER = default_sls_handler
 """Default SLS request handler."""
 
 # Blueprint and routes default configuration
