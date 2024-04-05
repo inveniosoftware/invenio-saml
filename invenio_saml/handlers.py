@@ -28,25 +28,17 @@ from .invenio_app import get_safe_redirect_target
 def default_account_info(attributes, remote_app):
     """Return account info for remote user.
 
-    :param attributes: (dict) dictionary of data returned by identity provider.
+    This function uses the mappings configuration variable inside your IdP
+    configuration.
 
+    :param attributes: (dict) dictionary of data returned by identity provider.
     :param remote_app: (str) Identity provider key.
 
     :returns: (dict) A dictionary representing user to create or update.
-
-    :mappings extracts the mapping or attributes for given remote_app.
-
     """
-    remote_app_config = current_app.config["SSO_SAML_IDPS"].get(remote_app, {})
-    if remote_app_config:
-        mappings = remote_app_config["mappings"]
-    else:
-        mappings = {
-            "email": "email",
-            "name": "name",
-            "surname": "surname",
-            "external_id": "external_id",
-        }
+    remote_app_config = current_app.config["SSO_SAML_IDPS"][remote_app]
+
+    mappings = remote_app_config["mappings"]
 
     name = attributes[mappings["name"]][0]
     surname = attributes[mappings["surname"]][0]

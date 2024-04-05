@@ -60,6 +60,16 @@ def test_default_sls_handler(appctx, users):
 
 def test_acs_handler_factory(appctx, db):
     """Test ACS handler factory."""
+    appctx.config["SSO_SAML_IDPS"] = {
+        "test": {
+            "mappings": {
+                "email": "email",
+                "name": "name",
+                "surname": "surname",
+                "external_id": "external_id",
+            },
+        }
+    }
     attrs = dict(
         email=["federico@example.com"],
         name=["federico"],
