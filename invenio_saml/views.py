@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 Graz University of Technology.
-# Copyright (C) 2022 Esteban J. G. Gabancho.
+# Copyright (C) 2022-2024 Esteban J. G. Gabancho.
 #
 # invenio-saml is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.

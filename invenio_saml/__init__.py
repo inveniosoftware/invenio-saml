@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2019, 2022 Esteban J. Garcia Gabancho.
+# Copyright (C) 2019-2024 Esteban J. Garcia Gabancho.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -58,6 +58,6 @@ from __future__ import absolute_import, print_function
 
 from .ext import InvenioSSOSAML
 
-__version__ = "1.0.0a4"
+__version__ = "1.0.0"
 
 __all__ = ("__version__", "InvenioSSOSAML")

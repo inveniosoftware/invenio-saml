@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2019, 2020, 2022 Esteban J. Garcia Gabancho.
+# Copyright (C) 2019-2024 Esteban J. Garcia Gabancho.
 # Copyright (C) 2021-2022 Graz University of Technology.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
