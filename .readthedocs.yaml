@@ -12,3 +12,7 @@ build:
   apt_packages:
     - libxml2-dev 
     - libxmlsec1-dev
+
+python:
+  install:
+    - requirements: docs/requirements.txt
