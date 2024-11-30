@@ -1,12 +1,19 @@
 ..
     Copyright (C) 2021 CERN.
     Copyright (C) 2019-2024 Esteban J. Garcia Gabancho.
+    Copyright (C) 2024 Graz University of Technology.
 
     Invenio-SAML is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
 
 Changes
 =======
+
+Version 1.0.1 (release 2024-11-30)
+
+- setup: change to reusable workflows
+- setup: pin dependencies
+- docs: explicitly add python requirements
 
 Version 1.0.0 (released 2024-04-10)
 
