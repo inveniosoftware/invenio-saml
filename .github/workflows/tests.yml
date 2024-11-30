@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2020 CERN.
+# Copyright (C) 2024 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -25,47 +26,4 @@ on:
 
 jobs:
   Tests:
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.9", "3.12"]
-        cache-service: [redis]
-        db-service: [postgresql14, mysql8]
-
-        include:
-          - db-service: postgresql14
-            DB_EXTRAS: "postgresql"
-
-          - db-service: mysql8
-            DB_EXTRAS: "mysql"
-
-    env:
-      CACHE: ${{ matrix.cache-service }}
-      DB: ${{ matrix.db-service }}
-      EXTRAS: tests
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: pip
-          cache-dependency-path: setup.cfg
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get install -y libxml2-dev libxmlsec1-dev
-          pip install ".[$EXTRAS]"
-          pip freeze
-          docker --version
-          docker-compose --version
-
-      - name: Run translations test
-        run: ./run-i18n-tests.sh
-
-      - name: Run tests
-        run: |
-          ./run-tests.sh
+    uses: inveniosoftware/workflows/.github/workflows/tests-python.yml@master
