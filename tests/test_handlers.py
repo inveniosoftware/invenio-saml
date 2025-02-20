@@ -13,8 +13,9 @@ import pytest
 from flask import current_app
 from flask_security import current_user, login_user
 from invenio_accounts.models import User
+from invenio_accounts.proxies import current_datastore
 from invenio_oauthclient.models import UserIdentity
-from mock import patch
+from mock import Mock, patch
 from werkzeug.exceptions import Unauthorized
 
 from invenio_saml.handlers import (
@@ -211,3 +212,39 @@ def test_custom_account_info(appctx, db):
 
         assert current_user.is_authenticated
         assert current_user.confirmed_at
+
+
+def test_custom_user_lookup(appctx, users):
+    """Test custom user lookup in ACS handler."""
+    appctx.config["SSO_SAML_IDPS"] = {
+        "test": {
+            "mappings": {
+                "email": "email",
+                "name": "name",
+                "surname": "surname",
+                "external_id": "external_id",
+            },
+        }
+    }
+    attrs = dict(
+        email=["federico@example.com"],
+        name=["federico"],
+        surname=["Fernandez"],
+        external_id=["12345679abcdf"],
+    )
+
+    user = current_datastore.get_user_by_email("federico@example.com")
+
+    mock_user_lookup = Mock(return_value=user)
+
+    acs_handler = acs_handler_factory("test", user_lookup=mock_user_lookup)
+
+    with appctx.test_request_context(), patch(
+        "invenio_saml.utils.SAMLAuth"
+    ) as mock_saml_auth:
+        mock_saml_auth.get_attributes.return_value = attrs
+        acs_handler(mock_saml_auth, "/")
+
+        assert mock_user_lookup.call_count == 1
+        assert current_user.is_authenticated
+        assert current_user.confirmed_at is None

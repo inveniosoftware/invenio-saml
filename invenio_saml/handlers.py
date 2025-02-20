@@ -90,7 +90,10 @@ def default_sls_handler(auth, next_url):
 
 
 def acs_handler_factory(
-    remote_app, account_info=default_account_info, account_setup=default_account_setup
+    remote_app,
+    account_info=default_account_info,
+    account_setup=default_account_setup,
+    user_lookup=account_get_user,
 ):
     """Generate ACS handlers with an specific account info and setup functions.
 
@@ -127,6 +130,10 @@ def acs_handler_factory(
         corresponding IdP account information. Typically this means creating a
         new row under ``UserIdentity`` and maybe extending  ``g.identity``.
 
+    :param user_lookup: callable to retrieve any user whose information matches
+        what is returned by the `account_info` callable. This then returns a
+        User object if a match is present and None if no match is found.
+
     :return: function to be used as ACS handler
     """
 
@@ -146,7 +153,7 @@ def acs_handler_factory(
             current_app.logger.debug("Metadata extracted from IdP %s", _account_info)
             # TODO: signals?
 
-            user = account_get_user(_account_info)
+            user = user_lookup(_account_info)
 
             if user is None:
                 form = create_csrf_disabled_registrationform(remote_app)
