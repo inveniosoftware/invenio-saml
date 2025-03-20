@@ -21,7 +21,7 @@ are the ones that will authenticate and "unauthenticate" users from the
 application.
 
 This module provides default handlers for ``acs`` and``sls`` actions that will
-be valid for most of the use cases. The default ACS handler is created by a factory, 
+be valid for most of the use cases. The default ACS handler is created by a factory,
 :func: `invenio_saml.handlers.acs_handler_function`.
 This is how you can use them:
 
@@ -43,7 +43,7 @@ This is how you can use them:
                         'x509cert': '<ipd-cert>',
                     },
                 },
-                "mappings": { 
+                "mappings": {
                     "email": "User.email",
                     "name": "User.FirstName",
                     "surname": "User.LastName",
@@ -54,8 +54,6 @@ This is how you can use them:
             }
         }
 """
-
-from __future__ import absolute_import, print_function
 
 from .ext import InvenioSSOSAML
 
