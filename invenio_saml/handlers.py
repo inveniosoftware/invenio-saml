@@ -90,8 +90,8 @@ def default_sls_handler(auth, next_url):
 
 
 def acs_handler_factory(
-    remote_app, 
-    account_info=default_account_info, 
+    remote_app,
+    account_info=default_account_info,
     account_setup=default_account_setup,
     user_lookup=account_get_user,
 ):
