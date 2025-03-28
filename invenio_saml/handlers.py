@@ -40,6 +40,12 @@ def default_account_info(attributes, remote_app):
 
     mappings = remote_app_config["mappings"]
 
+    affiliations_mapping = mappings.get("affiliations", None)
+    if affiliations_mapping:
+        affilliations = attributes[affiliations_mapping]
+    else:
+        affilliations = ""
+
     name = attributes[mappings["name"]][0]
     surname = attributes[mappings["surname"]][0]
     email = attributes[mappings["email"]][0]
@@ -53,7 +59,11 @@ def default_account_info(attributes, remote_app):
     return dict(
         user=dict(
             email=email,
-            profile=dict(username=username, full_name=name + " " + surname),
+            profile=dict(
+                username=username,
+                full_name=name + " " + surname,
+                affiliations=affilliations,
+            ),
         ),
         external_id=external_id,
         external_method=remote_app,
