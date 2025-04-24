@@ -85,8 +85,9 @@ def account_info(attributes, remote_app):
             profile=dict(
                 username=username,
                 full_name=name + " " + surname,
+                affiliations = affiliation
             ),
-            affiliation=affiliation,
+            affiliations=affiliation,
             role=role,
             visibility=visibility,
             communities_auto_update=communities_auto_update,
