@@ -11,6 +11,7 @@ Changes
 
 
 Version 1.1.0 (release 2025-05-08)
+
 - updates version requirements to support newer invenio module versions
 - handlers: allow user lookup customizing in factory
 - profile: add affiliations profile value
