@@ -87,6 +87,7 @@ def app_config(app_config):
     }
     # Add template
     app_config["OAUTHCLIENT_LOGIN_USER_TEMPLATE"] = "invenio_saml/login_user.html"
+    app_config["THEME_FRONTPAGE"] = False
     return app_config
 
 
