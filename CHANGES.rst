@@ -9,6 +9,11 @@
 Changes
 =======
 
+Version v1.2.0 (released 2025-07-17)
+
+- i18n: pulled translations
+- changes: spacing typo
+
 
 Version 1.1.0 (release 2025-05-08)
 
