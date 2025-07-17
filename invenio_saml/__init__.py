@@ -57,6 +57,6 @@ This is how you can use them:
 
 from .ext import InvenioSSOSAML
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 
 __all__ = ("__version__", "InvenioSSOSAML")
