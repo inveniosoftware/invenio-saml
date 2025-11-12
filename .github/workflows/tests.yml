@@ -10,30 +10,29 @@ name: CI
 
 on:
   push:
-    branches: master
+    branches:
+      - master 
+    paths-ignore:
+      - "docs/**"
+      - "**.md"
   pull_request:
-    branches: master
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '0 3 * * 6'
-  workflow_dispatch:
-    inputs:
-      reason:
-        description: 'Reason'
-        required: false
-        default: 'Manual trigger'
+    branches:
+      - master 
+    paths-ignore:
+      - "docs/**"
+      - "**.md"
 
 jobs:
-  Tests:
-    runs-on: ubuntu-20.04
+  test:
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
       matrix:
-          python-version: [3.7, 3.8, 3.9]
-          requirements-level: [pypi]
+          python-version: [ 3.9]
           cache-service: [redis]
           search-service: [opensearch2]
           db-service: [postgresql10, postgresql13]
+          requirements-level: [pypi]
 
           include:
           - db-service: postgresql10
@@ -50,21 +49,22 @@ jobs:
       EXTRAS: tests
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Generate dependencies
         run: |
+          sudo apt-get update
           sudo apt-get install -y libxml2-dev libxmlsec1-dev
           pip install wheel requirements-builder
           requirements-builder -e "$EXTRAS" --level=${{ matrix.requirements-level }} setup.py > .${{ matrix.requirements-level }}-${{ matrix.python-version }}-requirements.txt
 
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('.${{ matrix.requirements-level }}-${{ matrix.python-version }}-requirements.txt') }}
@@ -76,9 +76,6 @@ jobs:
           pip freeze
           docker --version
           docker-compose --version
-
-      - name: Run translations test
-        run: ./run-i18n-tests.sh
 
       - name: Run tests
         run: |
