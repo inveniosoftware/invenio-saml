@@ -9,6 +9,7 @@
 import pytest
 from flask import url_for
 from mock import patch
+from werkzeug.exceptions import BadRequest
 
 
 def test_wrong_idp(appctx, base_client):
@@ -50,8 +51,9 @@ def test_acs(appctx, base_client, sso_response):
     client = base_client
     acs_url = url_for("sso_saml.acs", idp="test-idp")
 
-    res = client.post(acs_url, data=dict(SAMLResponse=""))
-    assert res.status_code == 400
+    with pytest.raises(BadRequest):
+        res = client.post(acs_url, data=dict(SAMLResponse=""))
+        assert res.status_code == 400
 
     res = client.post(acs_url, data=dict(SAMLResponse=sso_response))
     assert res.status_code == 401

@@ -22,6 +22,7 @@ from flask_webpackext.manifest import (
     JinjaManifestLoader,
 )
 from invenio_app.factory import create_app as create_invenio_app
+from jinja2 import ChoiceLoader, FileSystemLoader
 from onelogin.saml2.utils import OneLogin_Saml2_Utils as saml_utils
 
 
@@ -56,6 +57,9 @@ def app_config(app_config):
         "example.com",
         "tests.com:5000",
     ]
+    app_config["TESTING"] = True
+    app_config["PROPAGATE_EXCEPTIONS"] = True
+    app_config["TRAP_HTTP_EXCEPTIONS"] = True
     # Flask-Security has ha bug in the latest release,
     # already fixed on develop branch
     app_config["SECURITY_EMAIL_SENDER"] = "no-reply@localhost"
@@ -85,13 +89,35 @@ def app_config(app_config):
         },
         "idp-url": {"settings_url": "https://test-idp.com/settings"},
     }
+    # Add template
+    app_config["OAUTHCLIENT_LOGIN_USER_TEMPLATE"] = "invenio_saml/login_user.html"
+    app_config["OAUTHCLIENT_HEADER_TEMPLATE"] = "login_header.html"
+    app_config["THEME_FRONTPAGE"] = False
     return app_config
 
 
 @pytest.fixture(scope="module")
 def create_app(instance_path):
     """Application factory fixture."""
-    return create_invenio_app
+
+    def factory(**config):
+
+        app = create_invenio_app(**config)
+
+        # NOW add your customizations
+        import os
+
+        test_templates = os.path.join(os.path.dirname(__file__), "templates")
+
+        from jinja2 import ChoiceLoader, FileSystemLoader
+
+        app.jinja_loader = ChoiceLoader(
+            [FileSystemLoader(test_templates), app.jinja_loader]
+        )
+
+        return app
+
+    return factory  # Return the factory function!
 
 
 @pytest.fixture

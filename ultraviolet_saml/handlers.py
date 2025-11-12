@@ -85,7 +85,7 @@ def account_info(attributes, remote_app):
             profile=dict(
                 username=username,
                 full_name=name + " " + surname,
-                affiliations = affiliation
+                affiliations=affiliation,
             ),
             affiliations=affiliation,
             role=role,
@@ -95,9 +95,9 @@ def account_info(attributes, remote_app):
         external_id=external_id,
         external_method=remote_app,
         active=True,
-        confirmed_at=datetime.utcnow()
-        if remote_app_config.get("auto_confirm", False)
-        else None,
+        confirmed_at=(
+            datetime.utcnow() if remote_app_config.get("auto_confirm", False) else None
+        ),
     )
 
 
