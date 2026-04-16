@@ -51,7 +51,7 @@ class MockManifestLoader(JinjaManifestLoader):
 @pytest.fixture(scope="module")
 def app_config(app_config):
     """Customize application configuration."""
-    app_config["APP_ALLOWED_HOSTS"] = [
+    app_config["TRUSTED_HOSTS"] = [
         "localhost",
         "example.com",
         "tests.com:5000",
