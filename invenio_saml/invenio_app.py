@@ -3,6 +3,7 @@
 # Copyright (C) 2019 Esteban J. Garcia Gabancho.
 # Copyright (C) 2019-2021 CERN.
 # Copyright (C) 2021 Graz University of Technology.
+# Copyright (C) 2026 Paradigm Repositories.
 #
 # Invenio-SAML is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -25,7 +26,7 @@ def get_safe_redirect_target(arg="next", _target=None):
     for target in _target, request.args.get(arg), request.referrer:
         if target:
             redirect_uri = urisplit(target)
-            allowed_hosts = current_app.config.get("APP_ALLOWED_HOSTS", [])
+            allowed_hosts = current_app.config.get("TRUSTED_HOSTS", [])
             if redirect_uri.host in allowed_hosts:
                 return target
             elif redirect_uri.path:
