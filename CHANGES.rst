@@ -10,6 +10,13 @@
 Changes
 =======
 
+Version v3.0.0 (released 2026-04-17)
+
+- fix: use TRUSTED_HOSTS
+    BREAKING CHANGE: flask>=3.1.0 introduced a new configuration variable
+    ``TRUSTS_HOSTS`` and Invenio-App has already deprecated ``APP_ALLOWED_HOSTS``
+    usage since.
+
 Version v2.0.0 (released 2026-02-10)
 
 - tests: remove pinned packages from deps
@@ -23,7 +30,6 @@ Version v1.2.0 (released 2025-07-17)
 
 - i18n: pulled translations
 - changes: spacing typo
-
 
 Version 1.1.0 (release 2025-05-08)
 
