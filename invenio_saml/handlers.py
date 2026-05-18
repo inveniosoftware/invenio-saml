@@ -48,7 +48,7 @@ def default_account_info(attributes, remote_app):
 
     name = attributes[mappings["name"]][0]
     surname = attributes[mappings["surname"]][0]
-    email = attributes[mappings["email"]][0]
+    email = attributes[mappings["email"]][0].lower()
     external_id = attributes[mappings["external_id"]][0]
     username = (
         remote_app + "-" + external_id.split("@")[0]
