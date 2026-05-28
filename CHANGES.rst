@@ -10,6 +10,10 @@
 Changes
 =======
 
+Version v4.0.0 (released 2026-05-28)
+
+- chore(setup): bump dependencies
+
 Version v3.0.0 (released 2026-04-17)
 
 - fix: use TRUSTED_HOSTS
