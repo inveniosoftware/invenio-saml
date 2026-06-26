@@ -249,6 +249,7 @@ def test_custom_user_lookup(appctx, users):
         assert current_user.is_authenticated
         assert current_user.confirmed_at is None
 
+
 def test_acs_handler_email_lowercase(appctx, db):
     """Test ACS handler factory regarding email lowercase conversion."""
     appctx.config["SSO_SAML_IDPS"] = {
@@ -271,7 +272,7 @@ def test_acs_handler_email_lowercase(appctx, db):
     acs_handler = acs_handler_factory("test")
 
     with appctx.test_request_context(), patch(
-        "invenio_saml.utils.SAMLAuth"
+            "invenio_saml.utils.SAMLAuth"
     ) as mock_saml_auth:
         mock_saml_auth.get_attributes.return_value = attrs
         next_url = acs_handler(mock_saml_auth, "/foo")
