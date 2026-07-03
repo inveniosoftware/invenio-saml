@@ -272,7 +272,7 @@ def test_acs_handler_email_lowercase(appctx, db):
     acs_handler = acs_handler_factory("test")
 
     with appctx.test_request_context(), patch(
-            "invenio_saml.utils.SAMLAuth"
+        "invenio_saml.utils.SAMLAuth"
     ) as mock_saml_auth:
         mock_saml_auth.get_attributes.return_value = attrs
         next_url = acs_handler(mock_saml_auth, "/foo")
