@@ -1,4 +1,114 @@
-[build-system]
-requires = ["setuptools", "wheel", "babel>2.8"]
-build-backend = "setuptools.build_meta"
+# SPDX-FileCopyrightText: 2019-2021 CERN.
+# SPDX-FileCopyrightText: 2019-2024 Esteban J. Garcia Gabancho.
+# SPDX-FileCopyrightText: 2019 Esteban J. Garcia Gabancho.
+# SPDX-FileCopyrightText: 2021 Graz University of Technology.
+# SPDX-FileCopyrightText: 2022-2026 Graz University of Technology.
+# SPDX-FileCopyrightText: 2026 TU Wien.
+# SPDX-License-Identifier: MIT
 
+[project]
+name = "invenio-saml"
+description = "Invenio module that provides SAML integration."
+readme = "README.rst"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+  { name = "Esteban J. Garcia Gabancho", email = "info@inveniosoftware.org" },
+]
+keywords = [
+  "SAML",
+  "SSO",
+  "invenio",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+]
+dependencies = [
+  "invenio-accounts>=9.0.0,<10.0.0",
+  "python3-saml>=1.5.0",
+  "uritools>=2.2.0",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/inveniosoftware/invenio-saml"
+
+[project.entry-points."invenio_base.api_apps"]
+invenio_saml = "invenio_saml:InvenioSSOSAML"
+
+[project.entry-points."invenio_base.apps"]
+invenio_saml = "invenio_saml:InvenioSSOSAML"
+
+[project.entry-points."invenio_i18n.translations"]
+invenio_saml = "invenio_saml"
+
+[project.optional-dependencies]
+tests = [
+  "invenio-app>=3.0.0,<4.0.0",
+  "invenio-db[mysql,postgresql,versioning]>=2.2.0,<3.0.0",
+  "invenio-mail>=1.0.0,<3.0.0",
+  "invenio-oauthclient>=9.0.0,<10.0.0",
+  "invenio-userprofiles>=7.0.0,<8.0.0",
+  "mock>=2.0.0",
+  "pytest-black>=0.6.0",
+  "pytest-freezegun>=0.2.0",
+  "pytest-invenio>=4.0.0,<5.0.0",
+  "redis>=2.10.5",
+  "Sphinx>=4.5.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# see https://babel.pocoo.org/en/latest/messages.html#toml-configuration-format
+[tool.babel]
+[tool.babel.compile_catalog]
+directory = "invenio_saml/translations/"
+use_fuzzy = true
+
+[tool.babel.extract_messages]
+copyright_holder = "CERN"
+msgid_bugs_address = "info@inveniosoftware.org"
+mapping_file = "pyproject.toml"
+output_file = "invenio_saml/translations/messages.pot"
+add_comments = "NOTE"
+
+[tool.babel.init_catalog]
+input_file = "invenio_saml/translations/messages.pot"
+output_dir = "invenio_saml/translations/"
+
+[[tool.babel.mappings]]
+method = "javascript"
+pattern = "**.js"
+encoding = "utf-8"
+extract_messages = "$._, jQuery._"
+
+[[tool.babel.mappings]]
+method = "python"
+pattern = "**.py"
+encoding = "utf-8"
+
+[[tool.babel.mappings]]
+method = "jinja2"
+pattern = "**/templates/**.html"
+encoding = "utf-8"
+
+[tool.hatch.version]
+path = "invenio_saml/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/invenio_saml",
+]
+
+[tool.isort]
+profile = "black"
+
+[tool.pydocstyle]
+add_ignore = "D401"
+
+[tool.pytest.ini_options]
+addopts = '--black --isort --pydocstyle --doctest-glob="*.rst" --doctest-modules --cov=invenio_saml --cov-report=term-missing'
+testpaths = "tests invenio_saml"
+live_server_scope = "module"
