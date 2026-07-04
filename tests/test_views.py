@@ -53,11 +53,10 @@ def test_acs(appctx, base_client, sso_response):
     res = client.post(acs_url, data=dict(SAMLResponse=sso_response))
     assert res.status_code == 401
 
-    with patch(
-        "onelogin.saml2.auth.OneLogin_Saml2_Response.is_valid"
-    ) as mock_is_valid, patch(
-        "invenio_saml.utils.SAMLAuth.is_authenticated"
-    ) as mock_is_authenticated:
+    with (
+        patch("onelogin.saml2.auth.OneLogin_Saml2_Response.is_valid") as mock_is_valid,
+        patch("invenio_saml.utils.SAMLAuth.is_authenticated") as mock_is_authenticated,
+    ):
         mock_is_valid.return_value = True
         mock_is_authenticated.return_value = False
         res = client.post(acs_url, data=dict(SAMLResponse=sso_response))
@@ -98,9 +97,10 @@ def test_sls(appctx, base_client, slo_query_string):
     res = client.get(sls_url, query_string=slo_query_string)
     assert res.status_code == 302
 
-    with patch("invenio_saml.utils.SAMLAuth.get_errors") as mock_get_erros, patch(
-        "invenio_saml.utils.SAMLAuth.get_last_error_reason"
-    ) as mock_get_reason:
+    with (
+        patch("invenio_saml.utils.SAMLAuth.get_errors") as mock_get_erros,
+        patch("invenio_saml.utils.SAMLAuth.get_last_error_reason") as mock_get_reason,
+    ):
         mock_get_erros.return_value = ["bad error"]
         mock_get_reason.return_value = "Test reason"
         res = client.get(sls_url, query_string=slo_query_string)
@@ -117,11 +117,12 @@ def test_metadata(appctx, base_client, metadata_response):
     assert res.status_code == 200
     assert res.data == metadata_response
 
-    with patch(
-        "onelogin.saml2.settings.OneLogin_Saml2_Settings.validate_metadata"
-    ) as mock_validate_metadata, patch(
-        "invenio_saml.utils.SAMLAuth.get_last_error_reason"
-    ) as mock_get_reason:
+    with (
+        patch(
+            "onelogin.saml2.settings.OneLogin_Saml2_Settings.validate_metadata"
+        ) as mock_validate_metadata,
+        patch("invenio_saml.utils.SAMLAuth.get_last_error_reason") as mock_get_reason,
+    ):
         mock_validate_metadata.return_value = ["bad error", "worst error"]
         mock_get_reason.return_value = "Test reason"
         res = client.get(metadata_url)
