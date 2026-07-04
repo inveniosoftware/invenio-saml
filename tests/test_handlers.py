@@ -76,9 +76,10 @@ def test_acs_handler_factory(appctx, db):
 
     acs_handler = acs_handler_factory("test")
 
-    with appctx.test_request_context(), patch(
-        "invenio_saml.utils.SAMLAuth"
-    ) as mock_saml_auth:
+    with (
+        appctx.test_request_context(),
+        patch("invenio_saml.utils.SAMLAuth") as mock_saml_auth,
+    ):
         mock_saml_auth.get_attributes.return_value = attrs
         next_url = acs_handler(mock_saml_auth, "/foo")
 
@@ -110,9 +111,10 @@ def test_acs_handler_factory_config(appctx, db):
 
     acs_handler = acs_handler_factory("test")
 
-    with appctx.test_request_context(), patch(
-        "invenio_saml.utils.SAMLAuth"
-    ) as mock_saml_auth:
+    with (
+        appctx.test_request_context(),
+        patch("invenio_saml.utils.SAMLAuth") as mock_saml_auth,
+    ):
         mock_saml_auth.get_attributes.return_value = attrs
         acs_handler(mock_saml_auth, "/foo")
 
@@ -131,11 +133,11 @@ def test_acs_handler_authetication_error(appctx, db):
 
     acs_handler = acs_handler_factory("test")
 
-    with appctx.test_request_context(), patch(
-        "invenio_saml.utils.SAMLAuth"
-    ) as mock_saml_auth, patch(
-        "invenio_saml.handlers.account_authenticate"
-    ) as mock_authenticate:
+    with (
+        appctx.test_request_context(),
+        patch("invenio_saml.utils.SAMLAuth") as mock_saml_auth,
+        patch("invenio_saml.handlers.account_authenticate") as mock_authenticate,
+    ):
         mock_saml_auth.get_attributes.return_value = attrs
         mock_authenticate.return_value = False
         with pytest.raises(Unauthorized):
@@ -153,11 +155,11 @@ def test_acs_handler_user_creation_error(appctx, db):
 
     acs_handler = acs_handler_factory("test")
 
-    with appctx.test_request_context(), patch(
-        "invenio_saml.utils.SAMLAuth"
-    ) as mock_saml_auth, patch(
-        "invenio_saml.handlers.account_register"
-    ) as mock_register:
+    with (
+        appctx.test_request_context(),
+        patch("invenio_saml.utils.SAMLAuth") as mock_saml_auth,
+        patch("invenio_saml.handlers.account_register") as mock_register,
+    ):
         mock_saml_auth.get_attributes.return_value = attrs
         mock_register.return_value = None
         with pytest.raises(Unauthorized):
@@ -200,9 +202,10 @@ def test_custom_account_info(appctx, db):
 
     acs_handler = acs_handler_factory("test", account_info=account_info)
 
-    with appctx.test_request_context(), patch(
-        "invenio_saml.utils.SAMLAuth"
-    ) as mock_saml_auth:
+    with (
+        appctx.test_request_context(),
+        patch("invenio_saml.utils.SAMLAuth") as mock_saml_auth,
+    ):
         mock_saml_auth.get_attributes.return_value = attrs
         acs_handler(mock_saml_auth, "/")
 
@@ -235,9 +238,10 @@ def test_custom_user_lookup(appctx, users):
 
     acs_handler = acs_handler_factory("test", user_lookup=mock_user_lookup)
 
-    with appctx.test_request_context(), patch(
-        "invenio_saml.utils.SAMLAuth"
-    ) as mock_saml_auth:
+    with (
+        appctx.test_request_context(),
+        patch("invenio_saml.utils.SAMLAuth") as mock_saml_auth,
+    ):
         mock_saml_auth.get_attributes.return_value = attrs
         acs_handler(mock_saml_auth, "/")
 
