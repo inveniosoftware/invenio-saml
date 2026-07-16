@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version v5.0.2 (released 2026-07-16)
+
+- fix(workflows): add missing translation argument to the publish workflow
+
 Version v5.0.1 (released 2026-07-16)
 
 - chore(setup): migrate from setuptools to hatchling
