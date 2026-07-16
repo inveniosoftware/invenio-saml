@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2019-2024 Esteban J. Garcia Gabancho.
 # SPDX-FileCopyrightText: 2024-2026 Graz University of Technology.
 # SPDX-FileCopyrightText: 2025 KTH Royal Institute of Technology.
+# SPDX-FileCopyrightText: 2026 TU Wien.
 # SPDX-License-Identifier: MIT
 
 """Invenio module that provides SAML integration.
@@ -54,6 +55,6 @@ This is how you can use them:
 
 from .ext import InvenioSSOSAML
 
-__version__ = "5.0.0"
+__version__ = "5.0.1"
 
 __all__ = ("__version__", "InvenioSSOSAML")
