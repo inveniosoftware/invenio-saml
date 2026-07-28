@@ -8,6 +8,13 @@
 Changes
 =======
 
+Version v4.1.1 (released 2026-07-28)
+
+- fix(build): include mo files
+- fix(workflows): add missing translation argument to the publish workflow
+- chore(setup): migrate from setuptools to hatchling
+- chore(format): reformat with black
+
 Version v4.1.0 (released 2026-07-28)
 
 - fix(ci): run tests on maint-*
