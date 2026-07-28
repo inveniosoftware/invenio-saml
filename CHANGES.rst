@@ -8,6 +8,13 @@
 Changes
 =======
 
+Version v4.1.0 (released 2026-07-28)
+
+- fix(ci): run tests on maint-*
+- i18n: pulled translations
+- chore(git-blame): ignore the SPDX license header commit
+- chore(licenses): update license headers to use SPDX
+
 Version v4.0.0 (released 2026-05-28)
 
 - chore(setup): bump dependencies
