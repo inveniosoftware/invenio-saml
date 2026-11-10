@@ -7,7 +7,6 @@
 # Translators:
 # Andrea Dömötör, 2022
 # 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: invenio-saml 1.0.0a2\n"

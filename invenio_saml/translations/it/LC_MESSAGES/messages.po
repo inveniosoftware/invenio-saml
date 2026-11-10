@@ -8,7 +8,6 @@
 # Alizee Pace <alizee.pace@gmail.com>, 2021
 # Tibor Simko <tibor.simko@cern.ch>, 2021
 # 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: invenio-saml 1.0.0a2\n"
